@@ -14,6 +14,7 @@ class	PhoneBook
 		Contact	conts[8];
 		int		id;
 		int		max;
+
 	public:
 		PhoneBook();
 		void	add(void);

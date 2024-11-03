@@ -3,7 +3,7 @@
 PhoneBook::PhoneBook()
 {
 	this->id = 1;
-	this->max = 0;
+	this->max = 1;
 }
 
 int	ft_isdigit(const string &str)
@@ -11,8 +11,8 @@ int	ft_isdigit(const string &str)
 	size_t	i = -1;
 	while (++i < str.length())
 		if (!(str[i] >= '0' && str[i] <= '9'))
-			return (0);
-	return (1);
+			return (1);
+	return (0);
 }
 
 int	ft_atoi(const string &str)
@@ -40,6 +40,23 @@ int	ft_atoi(const string &str)
 	return (count * sign);
 }
 
+string	get_no_empty_values(string value)
+{
+	string	str;
+
+	while (1)
+	{
+		cout << value;
+		getline(cin, str);
+		if (!(str.empty()) && !(value == "Phone Number: "))
+			break ;
+		else if (value == "Phone Number: ")
+			if (!(ft_isdigit(str)) && !(str.empty()))
+				break ;
+	}
+	return (str);
+}
+
 void	PhoneBook::add(void)
 {
 	string	name;
@@ -54,23 +71,12 @@ void	PhoneBook::add(void)
 		getline(cin, name);
 		if (name.empty())
 			continue ;
-		cout << "Surname: ";
-		getline(cin, surname);
-		if (surname.empty())
-			continue ;
-		cout << "Nick Name: ";
-		getline(cin, nick);
-		if (nick.empty())
-			continue ;
-		cout << "Phone Number: ";
-		getline(cin, number);
-		if (ft_isdigit(number) == 0 || number.empty())
-			continue ;
-		cout << "Darkest Secret: ";
-		getline(cin, secret);
-		if (secret.empty())
-			continue ;
-		this->conts[this->id++].set_Contact(name, surname, nick, number, secret);
+		surname = get_no_empty_values("Surname: ");
+		nick = get_no_empty_values("Nick Name: ");
+		number = get_no_empty_values("Phone Number: ");
+		secret = get_no_empty_values("Darkest Secret: ");
+		this->conts[this->id - 1].set_Contact(name, surname, nick, number, secret);
+		this->id++;
 		if (this->id == 9)
 			this->id = 1;
 		if (this->max < 8)
@@ -88,9 +94,9 @@ void PhoneBook::search(void)
 	cout << endl << "     Index|      Name|   Surname|  Nickname" << endl;
 	cout << "-----------------------------------------------" << endl;
 
-	while (i++ < this->max)
+	while (i < this->max)
 	{
-		cout << std::setw(10) << i << "|";
+		cout << std::setw(10) << i + 1 << "|";
 		if (this->conts[i].get_values(0).length() > 9)
 			cout << std::setw(10) << this->conts[i].get_values(0).substr(0, 9) + "." << "|";
 		else
@@ -105,6 +111,7 @@ void PhoneBook::search(void)
 			cout << std::setw(10) << this->conts[i].get_values(2).substr(0, 9) + "." << "|" << endl;
 		else
 			cout << std::setw(10) << this->conts[i].get_values(2) << "|" << endl;
+		i++;
 	}
 
 	while (true)
@@ -117,11 +124,11 @@ void PhoneBook::search(void)
 			index = std::stoi(input);
 			if (index >= 1 && index <= this->max)
 			{
-				cout << "Name: " << this->conts[index].get_values(0) << endl;
-				cout << "Surname: " << this->conts[index].get_values(1) << endl;
-				cout << "Nickname: " << this->conts[index].get_values(2) << endl;
-				cout << "Phone Number: " << this->conts[index].get_values(3) << endl;
-				cout << "Darkest Secret: " << this->conts[index].get_values(4) << endl;
+				cout << "Name: " << this->conts[index - 1].get_values(0) << endl;
+				cout << "Surname: " << this->conts[index - 1].get_values(1) << endl;
+				cout << "Nickname: " << this->conts[index - 1].get_values(2) << endl;
+				cout << "Phone Number: " << this->conts[index - 1].get_values(3) << endl;
+				cout << "Darkest Secret: " << this->conts[index - 1].get_values(4) << endl;
 				break;
 			}
 			else
