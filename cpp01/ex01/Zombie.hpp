@@ -3,6 +3,10 @@
 
 # include "iostream"
 
+using std::string;
+using std::cout;
+using std::endl;
+
 class Zombie
 {
 	private:
@@ -10,11 +14,11 @@ class Zombie
 
 	public:
 		Zombie();
-		Zombie(std::string zname);
+		Zombie(string zname);
 		void announce(void);
 		~Zombie();
 };
 
-Zombie*	zombieHorde(int N, std::string name);
+Zombie*	zombieHorde(int N, string name);
 
 #endif

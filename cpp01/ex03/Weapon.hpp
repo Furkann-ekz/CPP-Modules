@@ -3,15 +3,19 @@
 
 # include "iostream"
 
+using std::string;
+using std::cout;
+using std::endl;
+
 class Weapon
 {
 	private:
-		std::string	type;
+		string	type;
 	public:
 		Weapon();
-		Weapon(std::string w);
-		setType(std::string w);
-		const std::string&	Weapon::getType();
+		Weapon(string w);
+		void setType(string w);
+		const string& getType();
 };
 
 #endif

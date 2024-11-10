@@ -5,17 +5,17 @@ Zombie::Zombie()
 	name = "";
 }
 
-Zombie::Zombie(std::string zname)
+Zombie::Zombie(string zname)
 {
 	name = zname;
 }
 
 void	Zombie::announce(void)
 {
-	std::cout << name << " BraiiiiiiinnnzzzZ..." << std::endl;
+	cout << name << " BraiiiiiiinnnzzzZ..." << endl;
 }
 
 Zombie::~Zombie()
 {
-	std::cout << name << " has been destroyed." << std::endl;
+	cout << name << " has been destroyed." << endl;
 }

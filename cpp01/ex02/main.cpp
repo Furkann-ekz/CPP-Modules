@@ -1,16 +1,20 @@
 #include "iostream"
 
+using std::string;
+using std::cout;
+using std::endl;
+
 int	main()
 {
-	std::string	s = "HI THIS IS BRAIN";
-	std::string	*p = &s;
-	std::string	&r = s;
+	string	s = "HI THIS IS BRAIN";
+	string	*p = &s;
+	string	&r = s;
 
-	std::cout << "String adres: " << &s << std::endl;
-	std::cout << "Pointer adress: " << p << std::endl;
-	std::cout << "Referance adress: " << &r << std::endl;
+	cout << "String adres: " << &s << endl;
+	cout << "Pointer adress: " << p << endl;
+	cout << "Referance adress: " << &r << endl;
 
-	std::cout << "String: " << s << std::endl;
-	std::cout << "Pointer: " << *p << std::endl;
-	std::cout << "Referance: " << r << std::endl;
+	cout << "String: " << s << endl;
+	cout << "Pointer: " << *p << endl;
+	cout << "Referance: " << r << endl;
 }
