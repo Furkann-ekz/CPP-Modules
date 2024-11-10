@@ -37,9 +37,9 @@ int main(int ac, char **av)
 	oldfile << temp;
 	oldfile.close();
 	x = 0;
-	while ((x = temp.find(oldstr, x)) != string::npos)
+	while ((x = temp.find(oldstr)) != string::npos)
 	{
-		temp.replace(x, oldstr.length());
+		temp.replace(x, oldstr.length(), newstr);
 		x += newstr.length();
 	}
 	ofstream outfile(file);
