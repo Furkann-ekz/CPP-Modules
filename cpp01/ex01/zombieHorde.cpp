@@ -11,6 +11,6 @@ Zombie*	zombieHorde(int N, string name)
 
 	z = new Zombie[N];
 	while (++i < N)
-		z[i] = Zombie(name);
+		z[i].setName(name);
 	return (z);
 }

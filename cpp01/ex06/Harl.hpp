@@ -16,7 +16,7 @@ class Harl
 		void info(void);
 		void warning(void);
 		void error(void);
-		typedef void (Harl::*fpoint)();
+		typedef void (Harl::*fpoint)(void);
 	public:
 		void complain(string level);
 };

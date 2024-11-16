@@ -4,7 +4,7 @@ int	main()
 {
 	Zombie *z = zombieHorde(5, "test");
 
-	int i = -1;
+	int	i = -1;
 	while (++i < 5)
 		z[i].announce();
 	i = -1;

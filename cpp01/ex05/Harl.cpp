@@ -13,18 +13,23 @@ void Harl::complain(string level)
 	switch (j)
 	{
 		case 0:
+			cout << endl;
 			(this->*fp[0])();
 			break ;
 		case 1:
+			cout << endl;
 			(this->*fp[1])();
 			break ;
 		case 2:
+			cout << endl;
 			(this->*fp[2])();
 			break ;
 		case 3:
+			cout << endl;
 			(this->*fp[3])();
 			break ;
 		default:
+			cout << endl;
 			cout << "You can only choosing '1', '2', '3', '4'." << endl;
 	}
 }

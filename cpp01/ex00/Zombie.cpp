@@ -12,7 +12,7 @@ Zombie::Zombie(string zname)
 
 void	Zombie::announce(void)
 {
-	cout << name << " BraiiiiiiinnnzzzZ..." << endl;
+	cout << name << ": BraiiiiiiinnnzzzZ..." << endl;
 }
 
 Zombie::~Zombie()

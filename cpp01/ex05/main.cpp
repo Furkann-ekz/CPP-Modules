@@ -22,8 +22,9 @@ int main()
 	{
 		while (1)
 		{
-			cout << "1\n2\n3\n4\nChoose a level: ";
+			cout << "For 'DEBUG':\t1\nFor 'INFO':\t2\nFor 'WARNING':\t3\nFor 'ERROR':\t4\nChoose a level: ";
 			getline(cin, input);
+			cout << endl;
 			if (!(input.empty()))
 				break ;
 		}

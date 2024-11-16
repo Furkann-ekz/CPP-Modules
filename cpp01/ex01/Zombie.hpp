@@ -15,6 +15,7 @@ class Zombie
 	public:
 		Zombie();
 		Zombie(string zname);
+		void setName(string zname);
 		void announce(void);
 		~Zombie();
 };
