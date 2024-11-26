@@ -13,43 +13,38 @@ void Harl::complain(string level)
 	switch (j)
 	{
 		case 0:
-			cout << endl;
 			(this->*fp[0])();
 			break ;
 		case 1:
-			cout << endl;
 			(this->*fp[1])();
 			break ;
 		case 2:
-			cout << endl;
 			(this->*fp[2])();
 			break ;
 		case 3:
-			cout << endl;
 			(this->*fp[3])();
 			break ;
 		default:
-			cout << endl;
-			cout << "You can only choosing '1', '2', '3', '4'." << endl;
+			cout << "You can only choosing '1', '2', '3', '4'." << endl << endl;
 	}
 }
 
 void Harl::debug(void)
 {
-	cout << "7XL-çift peynirli-üçlü turşu-özel-ketçaplı burgerime fazladan domuz pastırması yemeyi seviyorum. Gerçekten seviyorum!" << endl;
+	cout << "7XL-çift peynirli-üçlü turşu-özel-ketçaplı burgerime fazladan domuz pastırması yemeyi seviyorum. Gerçekten seviyorum!" << endl << endl;
 }
 
 void Harl::info(void)
 {
-	cout << "Ekstra domuz pastırması eklemenin daha fazla paraya mal olduğuna inanamıyorum. Burgerime yeterince pastırma koymadınız! Yapsaydınız, daha fazlasını istemezdim!" << endl;
+	cout << "Ekstra domuz pastırması eklemenin daha fazla paraya mal olduğuna inanamıyorum. Burgerime yeterince pastırma koymadınız! Yapsaydınız, daha fazlasını istemezdim!" << endl << endl;
 }
 
 void Harl::warning(void)
 {
-	cout << "Bence bedavaya fazladan pastırma yemeyi hak ediyorum. Ben yıllardır geliyorum, sen geçen aydan beri burada çalışmaya başladın." << endl;
+	cout << "Bence bedavaya fazladan pastırma yemeyi hak ediyorum. Ben yıllardır geliyorum, sen geçen aydan beri burada çalışmaya başladın." << endl << endl;
 }
 
 void Harl::error(void)
 {
-	cout << "Bu kabul edilemez! Şimdi müdürle konuşmak istiyorum." << endl;
+	cout << "Bu kabul edilemez! Şimdi müdürle konuşmak istiyorum." << endl << endl;
 }

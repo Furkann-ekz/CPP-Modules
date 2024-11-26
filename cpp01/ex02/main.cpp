@@ -10,11 +10,14 @@ int	main()
 	string	*p = &s;
 	string	&r = s;
 
-	cout << "String adres: " << &s << endl;
-	cout << "Pointer adress: " << p << endl;
-	cout << "Referance adress: " << &r << endl;
+	cout << "String adres:\t\t" << &s << endl;
+	cout << "Pointer adress:\t\t" << p << endl;
+	cout << "Referance adress:\t" << &r << endl;
 
-	cout << "String: " << s << endl;
-	cout << "Pointer: " << *p << endl;
-	cout << "Referance: " << r << endl;
+	cout << endl;
+
+	cout << "String:\t\t" << s << endl;
+	cout << "Pointer:\t" << *p << endl;
+	cout << "Referance:\t" << r << endl;
+	cout << endl;
 }

@@ -51,7 +51,7 @@ void Harl::complain(string level)
 			}
 			break ;
 		default:
-			cout << "You can only choosing '1', '2', '3', '4'." << endl;
+			cout << "\nYou can only choosing '1', '2', '3', '4'.\n" << endl;
 	}
 }
 

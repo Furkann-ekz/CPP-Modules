@@ -1,18 +1,5 @@
 #include "Harl.hpp"
 
-string	inputvalue()
-{
-	string	input;
-
-
-	if (input.empty())
-	{
-		while (input.empty())
-			cin >>input;
-	}
-	return (input);
-}
-
 int main()
 {
 	Harl	harl;
@@ -22,13 +9,13 @@ int main()
 	{
 		while (1)
 		{
-			cout << "For 'DEBUG':\t1\nFor 'INFO':\t2\nFor 'WARNING':\t3\nFor 'ERROR':\t4\nChoose a level: ";
+			cout << "For 'DEBUG':\t1\nFor 'INFO':\t2\nFor 'WARNING':\t3\nFor 'ERROR':\t4\nFor 'EXIT':\t5\n\nChoose a level: ";
 			getline(cin, input);
 			cout << endl;
 			if (!(input.empty()))
 				break ;
 		}
-		if (input == "exit")
+		if (input == "5")
 			break;
 		if (!cin.good())
 		{
