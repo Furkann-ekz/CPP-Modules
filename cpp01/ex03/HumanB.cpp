@@ -3,7 +3,7 @@
 HumanB::HumanB(string n)
 {
 	name = n;
-	weapon = nullptr;
+	weapon = NULL;
 }
 
 HumanB::HumanB(string n, Weapon &w)
@@ -15,7 +15,7 @@ HumanB::HumanB(string n, Weapon &w)
 void	HumanB::attack()
 {
 	if (!weapon)
-		cout << name << " attacks with their hands " << endl;
+		cout << name << " can't attack when you don't have a weapon " << endl;
 	else
 		cout << name << " attacks with their " << weapon->getType() << endl;
 }

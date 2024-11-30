@@ -31,21 +31,17 @@ int main(int ac, char **av)
 	while (getline(infile, line))
 		temp += line + '\n';
 	infile.close();
-	ofstream	oldfile("oldfile");
-	if (!(oldfile.is_open()))
+	ofstream	newfile("newfile");
+	if (!(newfile.is_open()))
 		return (cout << "File cannot be create." << endl, 1);
-	oldfile << temp;
-	oldfile.close();
 	x = 0;
 	while ((x = temp.find(oldstr)) != string::npos)
 	{
-		temp.replace(x, oldstr.length(), newstr);
-		x += newstr.length();
+		newfile << temp.substr(0, x);
+		newfile << newstr;
+		temp = temp.substr(x + oldstr.length());
 	}
-	ofstream outfile(file);
-	if (!(outfile.is_open()))
-		return (cout << "File cannot be opened." << endl, 1);
-	outfile << temp;
-	outfile.close();
+	newfile << temp;
+	newfile.close();
 	cout << "Changed succesfully." << endl;
 }
