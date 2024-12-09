@@ -20,7 +20,7 @@ ClapTrap::ClapTrap(string n)
 
 ClapTrap::ClapTrap(ClapTrap const &src)
 {
-	cout << "ClapTrap coppy constructor called." << endl;
+	cout << "ClapTrap copy constructor called." << endl;
 	*this = src;
 }
 
@@ -44,39 +44,53 @@ ClapTrap::~ClapTrap()
 
 void	ClapTrap::attack(const string &target)
 {
-	if (health > 0 && energy > 0)
+	if (health == 0)
 	{
-		cout << "ClapTrap " << name << " attacks " << target << " causing " << damage << " points of damage!" << endl;
-		energy--;
+		cout << "ClapTrap " << name << "'s hit points are 0. He/She is dead." << endl;
+		return ;
 	}
 	else if (energy == 0)
-		cout << "ClapTrap " << name << " can't doing attack, because he/she hasn't energy." << endl;
-	else
-		cout << "ClapTrap " << name << "'s hit points 0. He/She is dead." << endl; 
+	{
+		cout << "ClapTrap " << name << " can't attack because it has no energy." << endl;
+		return ;
+	}
+	cout << "ClapTrap " << name << " attacks " << target << ", causing " << damage << " points of damage!" << endl;
+	energy--;
 }
 
 void	ClapTrap::takeDamage(unsigned int amount)
 {
-	if (health > amount)
-		health -= amount;
-	else
+	if (health == 0)
 	{
 		cout << "ClapTrap " << name << " is already dead." << endl;
 		return ;
 	}
-	cout << "ClapTrap " << name << " was attacked and lost " << amount << "hit points, his current hit point is " << health << ".";
+	else if (health > amount)
+		health -= amount;
+	else
+		health = 0;
+	cout << "ClapTrap " << name << " was attacked and lost " << amount << " hit points. Current hit points: " << health << "." << endl;
 }
 
-void	ClapTrap::beRepaired(unsigned int amount)
+void	ClapTrap::beAttack(ClapTrap const &attacker, ClapTrap &defender)
 {
-	if (energy > 0 && health > 0)
+	defender.takeDamage(attacker.damage);
+}
+
+void ClapTrap::beRepaired(unsigned int amount)
+{
+	if (health == 0)
 	{
-		health += amount;
-		energy--;
-		cout << "ClapTrap " << name << " repaired his health and gained " << amount << " hit points. His new hit points are " << health << endl;
+		cout << "ClapTrap " << name << " can't be repaired because he/she is dead." << endl;
+		return;
 	}
-	else if (energy == 0)
-		cout << "ClapTrap " << name << " can't be repaired because energy points 0." << endl;
-	else if (health == 0)
-		cout << "ClapTrap " << name << " can't be repaired because she/he is dead." << endl;
+	if (energy == 0)
+	{
+		cout << "ClapTrap " << name << " can't be repaired because energy points are 0." << endl;
+		return;
+	}
+	health += amount;
+	energy--;
+	cout << "ClapTrap " << name << " repaired and gained " << amount 
+		 << " hit points. Current hit points: " << health << "." << endl;
 }

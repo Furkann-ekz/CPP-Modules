@@ -1,8 +1,7 @@
 #include "ScavTrap.hpp"
 
-ScavTrap::ScavTrap()
+ScavTrap::ScavTrap() : ClapTrap()
 {
-	ClapTrap();
 	health = 100;
 	energy = 50;
 	damage = 20;
@@ -10,18 +9,17 @@ ScavTrap::ScavTrap()
 	cout << "ScavTrap default constructor called." << endl;
 }
 
-ScavTrap::ScavTrap(string n)
+ScavTrap::ScavTrap(string n) : ClapTrap(n)
 {
-	ClapTrap(n);
 	health = 100;
 	energy = 50;
 	damage = 20;
 	cout << "ScavTrap constructor called for " << name << "." << endl;
 }
 
-ScavTrap::ScavTrap(ScavTrap const &src)
+ScavTrap::ScavTrap(ScavTrap const &src) : ClapTrap(src)
 {
-	cout << "ScavTrap coppy constructor called." << endl;
+	cout << "ScavTrap copy constructor called." << endl;
 	*this = src;
 }
 
@@ -44,22 +42,25 @@ ScavTrap::~ScavTrap()
 	cout << "ScavTrap " << this->name << " destructor called" << endl;
 }
 
-void	ScavTrap::attack(const std::string& target)
+void ScavTrap::attack(const std::string& target)
 {
-	if (health > 0 && energy > 0)
+	if (health == 0)
 	{
-		cout << "ScavTrap " << name << " attacks " << target << " causing  " << damage << " points of damage! " << endl;
-		energy--;
-	}
-	else if (energy == 0)
-		cout << "ScavTrap " << name << " can't attack because he/she hasn't energy." << endl;
-	else
 		cout << "ScavTrap " << name << " can't attack because he/she is dead." << endl;
+		return;
+	}
+	if (energy == 0)
+	{
+		cout << "ScavTrap " << name << " can't attack because he/she has no energy." << endl;
+		return;
+	}
+	cout << "ScavTrap " << name << " attacks " << target << ", causing " << damage << " points of damage!" << endl;
+	energy--;
 }
 
-void	ScavTrap::guardGate()
+void ScavTrap::guardGate()
 {
-	if (guarding_gate == false)
+	if (!guarding_gate)
 	{
 		guarding_gate = true;
 		cout << "ScavTrap " << name << " is now guarding the gate." << endl;
