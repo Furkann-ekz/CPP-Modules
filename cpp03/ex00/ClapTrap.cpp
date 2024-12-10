@@ -2,7 +2,7 @@
 
 ClapTrap::ClapTrap()
 {
-	name = "unnamed ClapTrap";
+	name = "unnamed";
 	health = 10;
 	energy = 10;
 	damage = 0;
@@ -72,8 +72,9 @@ void	ClapTrap::takeDamage(unsigned int amount)
 	cout << "ClapTrap " << name << " was attacked and lost " << amount << " hit points. Current hit points: " << health << "." << endl;
 }
 
-void	ClapTrap::beAttack(ClapTrap const &attacker, ClapTrap &defender)
+void	ClapTrap::beAttack(ClapTrap &attacker, ClapTrap &defender)
 {
+	attacker.attack(defender.name);
 	defender.takeDamage(attacker.damage);
 }
 

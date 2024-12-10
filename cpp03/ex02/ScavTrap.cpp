@@ -64,6 +64,7 @@ void	ScavTrap::beAttack(ScavTrap &attacker, ScavTrap &defender)
 	defender.takeDamage(attacker.damage);
 }
 
+
 void ScavTrap::guardGate()
 {
 	if (!guarding_gate)

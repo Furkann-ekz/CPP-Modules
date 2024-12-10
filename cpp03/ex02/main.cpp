@@ -3,26 +3,37 @@
 
 int main()
 {
-	ClapTrap	a;
-	ClapTrap	b("b");
-	ClapTrap	c;
-	ClapTrap	d(b);
+	{
+		ClapTrap	a;
+		ClapTrap	b("b");
+		ClapTrap	c;
+		ClapTrap	d(b);
 
-	FragTrap	f;
-	FragTrap	g("g");
-	FragTrap	h;
-	FragTrap	j(f);
+		c = b;
 
-	c = b;
-	h = g;
+		a.beAttack(a,b);
+		c.beRepaired(10);
+	}
+	{
+		FragTrap	f;
+		FragTrap	g("g");
+		FragTrap	h;
+		FragTrap	j(f);
 
-	a.attack("b");
-	b.takeDamage(30);
-	c.beRepaired(10);
-	a.beAttack(a,b);
+		h = g;
 
-	f.attack("h");
-	f.beAttack(f,h);
-	g.beRepaired(10);
-	h.takeDamage(30);
+		f.beAttack(f,h);
+		g.beRepaired(10);
+	}
+	{
+		ScavTrap	w;
+		ScavTrap	x("x");
+		ScavTrap	y;
+		ScavTrap	z(w);
+
+		y = x;
+
+		w.beAttack(w,x);
+		x.beRepaired(10);
+	}
 }

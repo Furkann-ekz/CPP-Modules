@@ -23,7 +23,7 @@ class ClapTrap
 		void	attack(const string &target);
 		void	takeDamage(unsigned int amount);
 		void	beRepaired(unsigned int amount);
-		void	beAttack(ClapTrap const &attacker, ClapTrap &defender);
+		void	beAttack(ClapTrap &attacker, ClapTrap &defender);
 };
 
 #endif
