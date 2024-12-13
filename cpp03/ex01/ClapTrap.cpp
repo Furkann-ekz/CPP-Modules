@@ -20,13 +20,15 @@ ClapTrap::ClapTrap(string n)
 
 ClapTrap::ClapTrap(ClapTrap const &src)
 {
+	name = src.name;
+	health = src.health;
+	energy = src.energy;
+	damage = src.damage;
 	cout << "ClapTrap copy constructor called." << endl;
-	*this = src;
 }
 
 ClapTrap &ClapTrap::operator=(ClapTrap const &src)
 {
-	cout << "ClapTrap assignement operator called" << endl;
 	if (this != &src)
 	{
 		energy = src.energy;
@@ -34,6 +36,7 @@ ClapTrap &ClapTrap::operator=(ClapTrap const &src)
 		damage = src.damage;
 		health = src.health;
 	}
+	cout << "ClapTrap assignment operator called" << endl;
 	return *this;
 }
 

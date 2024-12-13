@@ -20,12 +20,15 @@ ScavTrap::ScavTrap(string n) : ClapTrap(n)
 ScavTrap::ScavTrap(ScavTrap const &src) : ClapTrap(src)
 {
 	cout << "ScavTrap copy constructor called." << endl;
-	*this = src;
+	name = src.name;
+	health = src.health;
+	energy = src.energy;
+	damage = src.damage;
 }
 
 ScavTrap &ScavTrap::operator=(ScavTrap const &src)
 {
-	cout << "ScavTrap assignement operator called" << endl;
+	cout << "ScavTrap assignment operator called" << endl;
 	if (this != &src)
 	{
 		energy = src.energy;
