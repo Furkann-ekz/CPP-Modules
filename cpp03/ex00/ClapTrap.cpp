@@ -21,12 +21,15 @@ ClapTrap::ClapTrap(string n)
 ClapTrap::ClapTrap(ClapTrap const &src)
 {
 	cout << "ClapTrap copy constructor called." << endl;
-	*this = src;
+	name = src.name;
+	health = src.health;
+	energy = src.energy;
+	damage = src.damage;
 }
 
 ClapTrap &ClapTrap::operator=(ClapTrap const &src)
 {
-	cout << "ClapTrap assignement operator called" << endl;
+	cout << "ClapTrap assignment operator called" << endl;
 	if (this != &src)
 	{
 		energy = src.energy;
