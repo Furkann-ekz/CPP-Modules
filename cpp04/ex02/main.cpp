@@ -1,68 +1,54 @@
 #include "Animal.hpp"
-#include "Cat.hpp"
 #include "Dog.hpp"
+#include "Cat.hpp"
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
 
 int main()
 {
-	cout << "----- Polymorphism Test -----" << endl;
-
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
-
-	cout << "Type of j: " << j->getType() << endl;
-	cout << "Type of i: " << i->getType() << endl;
-
-	j->makeSound();
-	i->makeSound();
 
 	delete j;
 	delete i;
 
-	cout << "\n----- Brain Class Test -----" << endl;
+	cout << endl;
 
 	Dog* dog = new Dog();
 	Cat* cat = new Cat();
+	WrongAnimal* wronganimal = new WrongAnimal();
+	WrongCat* wrongcat = new WrongCat();
 
-	dog->setBrainIdea(0, "I want to play!");
-	dog->setBrainIdea(1, "I am hungry.");
-	cat->setBrainIdea(0, "I want to sleep.");
-	cat->setBrainIdea(1, "Where's the mouse?");
+	cout << endl;
 
-	cout << "Dog's Brain Idea 0: " << dog->getBrainIdea(0) << endl;
-	cout << "Dog's Brain Idea 1: " << dog->getBrainIdea(1) << endl;
-	cout << "Cat's Brain Idea 0: " << cat->getBrainIdea(0) << endl;
-	cout << "Cat's Brain Idea 1: " << cat->getBrainIdea(1) << endl;
+	cout << dog->getType() << endl;
+	dog->makeSound();
+	dog->setBrainIdea(0, "deneme1");
+	dog->setBrainIdea(5, "test dog");
+	cout << dog->getBrainIdea(0) << endl;
+	cout << dog->getBrainIdea(5) << endl;
+	cout << dog->getBrainIdea(1) << endl;
+	dog->setBrainIdea(5, "change test 5");
+	cout << dog->getBrainIdea(5) << endl;
 
-	cout << "\n----- Deep Copy Test -----" << endl;
+	cout << endl;
 
-	Dog* copyDog = new Dog(*dog);
+	cout << cat->getType() << endl;
+	cat->makeSound();
+	cat->setBrainIdea(0, "deneme2");
+	cat->setBrainIdea(5, "test cat");
+	cout << cat->getBrainIdea(0) << endl;
+	cout << cat->getBrainIdea(5) << endl;
+	cout << cat->getBrainIdea(1) << endl;
+	cat->setBrainIdea(5, "change test 5");
+	cout << cat->getBrainIdea(5) << endl;
 
-	cout << "Original Dog Brain Idea 0: " << dog->getBrainIdea(0) << endl;
-	cout << "Copied Dog Brain Idea 0: " << copyDog->getBrainIdea(0) << endl;
+	cout << endl;
 
-	dog->setBrainIdea(0, "I want to run!");
-	cout << "Original Dog Brain Idea 0 (changed): " << dog->getBrainIdea(0) << endl;
-	cout << "Copied Dog Brain Idea 0 (should be unchanged): " << copyDog->getBrainIdea(0) << endl;
 
 	delete dog;
 	delete cat;
-	delete copyDog;
-
-	cout << "\n----- WrongAnimal Test -----" << endl;
-
-	const WrongAnimal* wrongAnimal = new WrongAnimal();
-	const WrongAnimal* wrongCat = new WrongCat();
-
-	cout << "WrongAnimal Type: " << wrongAnimal->getType() << endl;
-	cout << "WrongCat Type: " << wrongCat->getType() << endl;
-
-	wrongAnimal->makeSound();
-	wrongCat->makeSound();
-
-	delete wrongAnimal;
-	delete wrongCat;
-
+	delete wronganimal;
+	delete wrongcat;
 	return 0;
 }

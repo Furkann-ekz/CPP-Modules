@@ -25,7 +25,8 @@ Dog &Dog::operator=(Dog const &src)
 {
 	if (this != &src)
 	{
-		delete brain;
+		if (brain)
+			delete brain;
 		type = src.type;
 		brain = new Brain(*src.brain);
 	}
@@ -34,7 +35,8 @@ Dog &Dog::operator=(Dog const &src)
 
 Dog::~Dog()
 {
-	delete brain;
+	if (brain)
+		delete brain;
 	cout << "[Dog] Destructor called for " << type << "." << endl;
 }
 

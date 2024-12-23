@@ -31,11 +31,6 @@ Animal::~Animal()
 	cout << "[Animal] Destructor called for " << type << "." << endl;
 }
 
-void Animal::makeSound() const
-{
-	cout << "This is a generic animal sound." << endl;
-}
-
 string Animal::getType() const
 {
 	return (type);

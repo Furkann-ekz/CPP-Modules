@@ -16,7 +16,7 @@ class WrongAnimal
 		WrongAnimal(string typ);
 		WrongAnimal(WrongAnimal const &src);
 		WrongAnimal &operator=(WrongAnimal const &src);
-		~WrongAnimal();
+		virtual ~WrongAnimal();
 		void makeSound() const;
 		string getType() const;
 };

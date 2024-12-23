@@ -25,7 +25,8 @@ Cat &Cat::operator=(Cat const &src)
 {
 	if (this != &src)
 	{
-		delete brain;
+		if (brain)
+			delete brain;
 		type = src.type;
 		brain = new Brain(*src.brain);
 	}
@@ -34,7 +35,8 @@ Cat &Cat::operator=(Cat const &src)
 
 Cat::~Cat()
 {
-	delete brain;
+	if (brain)
+		delete brain;
 	cout << "[Cat] Destructor called for " << type << "." << endl;
 }
 
