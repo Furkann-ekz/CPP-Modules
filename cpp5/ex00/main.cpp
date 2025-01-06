@@ -5,22 +5,22 @@ int main()
 	try
 	{
 		Bureaucrat b("Alice", 1);
-		std::cout << b << std::endl;
+		cout << b << endl;
 
 		b.incrementGrade();
 	}
-	catch (const std::exception& e)
+	catch (const exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << endl;
 	}
 
 	try
 	{
 		Bureaucrat c("Bob", 151);
 	}
-	catch (const std::exception& e)
+	catch (const exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << endl;
 	}
 
 	return 0;

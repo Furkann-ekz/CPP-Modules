@@ -5,9 +5,11 @@
 # include "string"
 
 using std::string;
+using std::exception;
 using std::endl;
 using std::cout;
-using std::exception;
+
+class Form;
 
 class Bureaucrat
 {
@@ -39,6 +41,7 @@ class Bureaucrat
 			public:
 				const char* what() const throw();
 		};
+		void signForm(Form& form);
 };
 
 std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);
