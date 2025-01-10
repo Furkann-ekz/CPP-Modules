@@ -1,49 +1,50 @@
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string _target) :
-AForm(_target, 145, 137), target(_target){}
+ShrubberyCreationForm::ShrubberyCreationForm(const string &target)
+	: AForm("Shrubbery Creation Form", 145, 137), target(target) {  }
 
-ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm const& scf) :
-AForm(scf.target, scf.getReqSign(), scf.getReqExec()), target(scf.target){}
+ShrubberyCreationForm::~ShrubberyCreationForm() {  }
 
-ShrubberyCreationForm::~ShrubberyCreationForm() {}
+void ShrubberyCreationForm::execute(const Bureaucrat &executor) const
+{
+	if (!isSigned())
+		throw AForm::GradeTooLowException();
 
-ShrubberyCreationForm& ShrubberyCreationForm::operator=(ShrubberyCreationForm const& other){
-    if (&other != this){
-        this->target = other.target;
-    }
-    return *this;
-}
+	if (executor.getGrade() > getExecuteGrade())
+		throw AForm::GradeTooLowException();
 
-void ShrubberyCreationForm::execute(Bureaucrat const& brt) const{
-    if (getSign() != true && brt.getGrade() > getReqSign())
-        throw AForm::NotBeSigned();
-    if (brt.getGrade() > this->getReqExec())
-        throw AForm::GradeTooLowException();
-    std::ofstream file((this->getName() + "_shrubbery").c_str());
-    file << "                      ___" << std::endl;
-    file << "                _,-'\"\"   \"\"\"\"`--." << std::endl;
-    file << "             ,-'          __,,-- \\" << std::endl;
-    file << "           ,\'    __,--\"\"\"\"dF      )" << std::endl;
-    file << "          /   .-\"Hb_,--\"\"dF      /" << std::endl;
-    file << "        ,\'       _Hb ___dF\"-._,-'" << std::endl;
-    file << "      ,'      _,-\"\"\"\"   \"\"--..__" << std::endl;
-    file << "     (     ,-'                  `." << std::endl;
-    file << "      `._,'     _   _             ;" << std::endl;
-    file << "       ,'     ,' `-'Hb-.___..._,-'" << std::endl;
-    file << "       \\    ,'\"Hb.-\'HH`-.dHF\"" << std::endl;
-    file << "        `--\'   \"Hb  HH  dF\"" << std::endl;
-    file << "                \"Hb HH dF" << std::endl;
-    file << "                 \"HbHHdF" << std::endl;
-    file << "                  |HHHF" << std::endl;
-    file << "                  |HHH|" << std::endl;
-    file << "                  |HHH|" << std::endl;
-    file << "                  |HHH|" << std::endl;
-    file << "                  |HHH|" << std::endl;
-    file << "                  dHHHb" << std::endl;
-    file << "                .dFd|bHb.               o" << std::endl;
-    file << "      o       .dHFdH|HbTHb.          o /" << std::endl;
-    file << "\\  Y  |  \\__,dHHFdHH|HHhoHHb.__Krogg  Y" << std::endl;
-    file << "##########################################" << std::endl;
-    file.close();
+	string str = target + "_shrubbery";
+	ofstream outputFile(str.c_str());
+
+	if (outputFile)
+	{
+		outputFile << "                      ___" << endl;
+		outputFile << "                _,-'\"\"   \"\"\"\"`--." << endl;
+		outputFile << "             ,-'          __,,-- \\" << endl;
+		outputFile << "           ,\'    __,--\"\"\"\"dF      )" << endl;
+		outputFile << "          /   .-\"Hb_,--\"\"dF      /" << endl;
+		outputFile << "        ,\'       _Hb ___dF\"-._,-'" << endl;
+		outputFile << "      ,'      _,-\"\"\"\"   \"\"--..__" << endl;
+		outputFile << "     (     ,-'                  `." << endl;
+		outputFile << "      `._,'     _   _             ;" << endl;
+		outputFile << "       ,'     ,' `-'Hb-.___..._,-'" << endl;
+		outputFile << "       \\    ,'\"Hb.-\'HH`-.dHF\"" << endl;
+		outputFile << "        `--\'   \"Hb  HH  dF\"" << endl;
+		outputFile << "                \"Hb HH dF" << endl;
+		outputFile << "                 \"HbHHdF" << endl;
+		outputFile << "                  |HHHF" << endl;
+		outputFile << "                  |HHH|" << endl;
+		outputFile << "                  |HHH|" << endl;
+		outputFile << "                  |HHH|" << endl;
+		outputFile << "                  |HHH|" << endl;
+		outputFile << "                  dHHHb" << endl;
+		outputFile << "                .dFd|bHb.               o" << endl;
+		outputFile << "      o       .dHFdH|HbTHb.          o /" << endl;
+		outputFile << "\\  Y  |  \\__,dHHFdHH|HHhoHHb.__Krogg  Y" << endl;
+		outputFile << "##########################################" << endl;
+	}
+	else
+	{
+		throw runtime_error("Failed to create shrubbery file for " + target + ".");
+	}
 }

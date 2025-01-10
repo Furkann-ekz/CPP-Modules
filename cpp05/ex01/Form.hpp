@@ -16,7 +16,7 @@ class Form
 
 	public:
 		Form();
-		Form(const string& name, int signGrade, int executeGrade);
+		Form(const string &name, int signGrade, int executeGrade);
 		Form(const Form &src);
 		Form &operator=(const Form &src);
 		~Form();
@@ -26,7 +26,7 @@ class Form
 		int getSignGrade() const;
 		int getExecuteGrade() const;
 
-		void beSigned(const Bureaucrat& b);
+		void beSigned(const Bureaucrat &b);
 
 		class GradeTooHighException : public exception
 		{

@@ -11,16 +11,35 @@ int main()
 	}
 	catch (const exception &e)
 	{
-		std::cerr << e.what() << endl;
+		cout << e.what() << endl;
 	}
 
 	try
 	{
-		Bureaucrat c("Bob", 151);
+		Bureaucrat c("Bob", 150);
+		cout << c << endl;
+
+		c.decrementGrade();
 	}
 	catch (const exception &e)
 	{
-		std::cerr << e.what() << endl;
+		cout << e.what() << endl;
+	}
+
+	try
+	{
+		Bureaucrat d("Charlie", 42);
+		cout << d << endl;
+
+		d.incrementGrade();
+		cout << d << endl;
+
+		d.decrementGrade();
+		cout << d << endl;
+	}
+	catch (const exception &e)
+	{
+		cout << e.what() << endl;
 	}
 
 	return 0;

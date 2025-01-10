@@ -2,7 +2,7 @@
 
 Bureaucrat::Bureaucrat() : name("Bureaucrat"), grade(10) {}
 
-Bureaucrat::Bureaucrat(const string n, int grade) : name(n), grade(grade)
+Bureaucrat::Bureaucrat(const string &n, int grade) : name(n), grade(grade)
 {
 	if (grade < 1)
 		throw GradeTooHighException();
@@ -55,8 +55,8 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
 	return ("Grade is too low!");
 }
 
-std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat)
+ostream &operator<<(ostream &out, const Bureaucrat &bureaucrat)
 {
-	out << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade();
+	out << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade() << endl;
 	return (out);
 }

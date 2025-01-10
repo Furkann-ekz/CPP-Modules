@@ -1,16 +1,18 @@
-#pragma once
+#ifndef PRESIDENTIALPARDONFORM_HPP
+#define PRESIDENTIALPARDONFORM_HPP
 
-#include "RobotomyRequestForm.hpp"
-#include <ctime>
+#include "AForm.hpp"
 
-class PresidentialPardonForm : public AForm{
-    private:
-        std::string target;
-    public:
-        PresidentialPardonForm(std::string target);
-        PresidentialPardonForm(PresidentialPardonForm const& scf);
-        ~PresidentialPardonForm();
-        PresidentialPardonForm& operator=(PresidentialPardonForm const& other);
+class PresidentialPardonForm : public AForm
+{
+	private:
+		const string target;
 
-        void    execute(Bureaucrat const& brt) const;        
+	public:
+		PresidentialPardonForm(const string &target);
+		~PresidentialPardonForm();
+
+	void	execute(const Bureaucrat &executor) const;
 };
+
+#endif

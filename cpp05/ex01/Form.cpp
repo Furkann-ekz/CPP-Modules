@@ -2,7 +2,7 @@
 
 Form::Form() : name("Form"), isSigned(false), signGrade(1), executeGrade(1) {} 
 
-Form::Form(const std::string &name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade)
+Form::Form(const string &name, int signGrade, int executeGrade) : name(name), isSigned(false), signGrade(signGrade), executeGrade(executeGrade)
 	{
 	if (signGrade < 1 || executeGrade < 1)
 		throw GradeTooHighException();
@@ -21,7 +21,7 @@ Form &Form::operator=(const Form &src)
 
 Form::~Form() {}
 
-std::string Form::getName() const
+string Form::getName() const
 {
 	return (name);
 }
@@ -63,6 +63,6 @@ std::ostream& operator<<(std::ostream &os, const Form &f)
 	os << "Form " << f.getName();
 	os << ", signed: " << (f.getIsSigned() ? "true" : "false");
 	os << ", sign grade: " << f.getSignGrade();
-	os << ", execute grade: " << f.getExecuteGrade();
+	os << ", execute grade: " << f.getExecuteGrade() << endl;
 	return (os);
 }

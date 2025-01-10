@@ -1,43 +1,55 @@
 #include "AForm.hpp"
 
-AForm::AForm(std::string _name, int _grdReqSign, int _grdReqExec)
-: name(_name), grdReqSign(_grdReqSign), grdReqExec(_grdReqExec)
-{}
-
-AForm::AForm(AForm const& AForm)
-: name(AForm.name), sign(AForm.sign), grdReqSign(AForm.grdReqSign), grdReqExec(AForm.grdReqExec)
-{}
+AForm::AForm(const string &name, int signGrade, int executeGrade) : name(name), sign(false), signGrade(signGrade), executeGrade(executeGrade)
+{
+	if (signGrade < 1 || executeGrade < 1)
+		throw GradeTooHighException();
+	else if (signGrade > 150 || executeGrade > 150)
+		throw GradeTooLowException();
+}
 
 AForm::~AForm() {}
 
-AForm& AForm::operator=(AForm const& other){
-    if (&other != this){
-        this->sign = other.sign;
-    }
-    return *this;
+const string &AForm::getName() const
+{
+	return (name);
 }
 
-const char* AForm::GradeTooHighException::what() const throw() { return "Grade Too High!"; }
-const char* AForm::GradeTooLowException::what()  const throw() { return "Grade Too Low!"; }
-const char* AForm::NotBeSigned::what()           const throw() { return "Not be signed!"; }
-
-std::string AForm::getName()const   { return this->name; }
-bool        AForm::getSign()const   { return this->sign; }
-int         AForm::getReqSign()const{ return this->grdReqSign; }
-int         AForm::getReqExec()const{ return this->grdReqExec; }
-
-void        AForm::beSigned(Bureaucrat const& brt) throw(std::exception) {
-    if (brt.getGrade() > this->grdReqSign){
-        throw AForm::GradeTooLowException();
-    }
-    this->sign = true;
+bool AForm::isSigned() const
+{
+	return (sign);
 }
 
+int AForm::getSignGrade() const
+{
+	return (signGrade);
+}
 
+int AForm::getExecuteGrade() const
+{
+	return (executeGrade);
+}
 
-std::ostream& operator<<(std::ostream& os, AForm const& AForm){
-    os << AForm.getName() << ", grade request sign " 
-        << AForm.getReqSign() << ", grade request execute "
-        << AForm.getReqExec();
-    return os;
+void AForm::beSigned(const Bureaucrat &bureaucrat)
+{
+	if (bureaucrat.getGrade() <= signGrade)
+		sign = true;
+	else
+		throw GradeTooLowException();
+}
+
+const char *AForm::GradeTooHighException::what() const throw()
+{
+	return ("Form grade is too high!\n");
+}
+
+const char *AForm::GradeTooLowException::what() const throw()
+{
+	return "Form grade is too low!\n";
+}
+
+ostream &operator<<(ostream &os, const AForm &form)
+{
+	os << "Form: " << form.getName() << ", Sign Grade: " << form.getSignGrade() << ", Execute Grade: " << form.getExecuteGrade() << ", Signed: " << (form.isSigned() ? "Yes" : "No");
+	return (os);
 }

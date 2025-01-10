@@ -3,25 +3,40 @@
 
 int main()
 {
-	try
-	{
+	try {
 		Bureaucrat alice("Alice", 10);
-		Form form("form", 5, 20);
+		Form form("FormA", 5, 20);
 
 		cout << form << endl;
 
 		alice.signForm(form);
+
 		cout << form << endl;
 
-		Bureaucrat gurney("Gurney", 4);
-		gurney.signForm(form);
-		cout << form << endl;
+		try
+		{
+			Form invalidForm("InvalidForm", 0, 200);
+		}
+		catch (const exception &e)
+		{
+			cout << e.what() << endl;
+		}
 
+		Bureaucrat bob("Bob", 50);
+		try
+		{
+			bob.signForm(form);
+		}
+		catch (const exception &e)
+		{
+			cout << e.what() << endl;
+		}
 	}
-	catch (exception &e)
+	catch (const exception &e)
 	{
-		std::cerr << e.what() << endl;
+		cout << e.what() << endl;
 	}
 
 	return 0;
 }
+

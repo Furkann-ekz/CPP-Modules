@@ -8,6 +8,7 @@ using std::string;
 using std::endl;
 using std::cout;
 using std::exception;
+using std::ostream;
 
 class Bureaucrat
 {
@@ -18,7 +19,7 @@ class Bureaucrat
 	public:
 		Bureaucrat();
 		Bureaucrat(const Bureaucrat &src);
-		Bureaucrat(const string n, int grade);
+		Bureaucrat(const string &n, int grade);
 		Bureaucrat &operator=(const Bureaucrat &src);
 		~Bureaucrat();
 

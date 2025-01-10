@@ -1,16 +1,21 @@
-#pragma once
+#ifndef ROBOTOMYREQUESTFORM_HPP
+#define ROBOTOMYREQUESTFORM_HPP
 
-#include "ShrubberyCreationForm.hpp"
-#include <ctime>
+#include "AForm.hpp"
+#include "Bureaucrat.hpp"
 
-class RobotomyRequestForm : public AForm{
-    private:
-        std::string target;
-    public:
-        RobotomyRequestForm(std::string target);
-        RobotomyRequestForm(RobotomyRequestForm const& scf);
-        ~RobotomyRequestForm();
-        RobotomyRequestForm& operator=(RobotomyRequestForm const& other);
+class Bureaucrat;
 
-        void    execute(Bureaucrat const& brt) const;        
+class RobotomyRequestForm : public AForm
+{
+	private:
+		const string target;
+
+	public:
+		RobotomyRequestForm(const string &target);
+		~RobotomyRequestForm();
+
+	void	execute(const Bureaucrat &executor) const;
 };
+
+#endif

@@ -1,16 +1,22 @@
-#pragma once
+#ifndef SHRUBBERYCREATIONFORM_HPP
+#define SHRUBBERYCREATIONFORM_HPP
 
 #include "AForm.hpp"
-#include <fstream>
 
-class ShrubberyCreationForm : public AForm{
-    private:
-        std::string target;
-    public:
-        ShrubberyCreationForm(std::string target);
-        ShrubberyCreationForm(ShrubberyCreationForm const& scf);
-        ~ShrubberyCreationForm();
-        ShrubberyCreationForm& operator=(ShrubberyCreationForm const& other);
+using std::ofstream;
+using std::runtime_error;
 
-        void    execute(Bureaucrat const& brt) const;        
+
+class ShrubberyCreationForm : public AForm
+{
+	private:
+		const string target;
+
+	public:
+		ShrubberyCreationForm(const string &target);
+		~ShrubberyCreationForm();
+
+	void	execute(const Bureaucrat &executor) const;
 };
+
+#endif

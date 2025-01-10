@@ -1,34 +1,53 @@
-#pragma once
+#ifndef AFORM_HPP
+#define AFORM_HPP
 
+#include <iostream>
+#include <string>
+#include <cstdlib> 
+#include <fstream>
 #include "Bureaucrat.hpp"
 
 class Bureaucrat;
 
-class AForm{
-    private:
-        const std::string name;
-        bool  sign;
-        const int grdReqSign;
-        const int grdReqExec;
-    public:
-        AForm(std::string name, int grdReqSign, int grdReqExec);
-        AForm(AForm const& AForm);
-        virtual ~AForm();
-        AForm& operator=(AForm const& other);
+using std::string;
+using std::ostream;
+using std::exception;
+using std::cout;
+using std::endl;
 
-        class GradeTooHighException : public std::exception { public: const char* what() const throw(); };
-        class GradeTooLowException  : public std::exception { public: const char* what() const throw(); };
-        class NotBeSigned           : public std::exception { public: const char* what() const throw(); };
+class AForm
+{
+private:
+	const string name;
+	bool sign;
+	const int signGrade;
+	const int executeGrade;
 
-        std::string getName()       const;
-        bool        getSign()       const;
-        int         getReqSign()    const;
-        int         getReqExec()    const;
+public:
+	AForm(const string &name, int signGrade, int executeGrade);
+	virtual ~AForm();
 
-        void        beSigned(Bureaucrat const& brt) throw(std::exception);
-        void        cntrlSign(Bureaucrat const& brt) throw(std::exception);
+	const string &getName() const;
+	bool isSigned() const;
+	int getSignGrade() const;
+	int getExecuteGrade() const;
+	void beSigned(const Bureaucrat &bureaucrat);
 
-        virtual void execute(Bureaucrat const& brt) const = 0;
+	virtual void execute(const Bureaucrat &executor) const = 0;
+
+	class GradeTooHighException : public exception
+	{
+		public:
+			virtual const char *what() const throw();
+	};
+
+	class GradeTooLowException : public exception
+	{
+		public:
+			virtual const char *what() const throw();
+	};
 };
 
-std::ostream& operator<<(std::ostream& os, AForm const& AForm);
+ostream &operator<<(ostream &os, const AForm &form);
+
+#endif
