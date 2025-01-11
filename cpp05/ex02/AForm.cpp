@@ -50,6 +50,6 @@ const char *AForm::GradeTooLowException::what() const throw()
 
 ostream &operator<<(ostream &os, const AForm &form)
 {
-	os << "Form: " << form.getName() << ", Sign Grade: " << form.getSignGrade() << ", Execute Grade: " << form.getExecuteGrade() << ", Signed: " << (form.isSigned() ? "Yes" : "No");
+	os << "Form: " << form.getName() << ", Sign Grade: " << form.getSignGrade() << ", Execute Grade: " << form.getExecuteGrade() << ", Signed: " << (form.isSigned() ? "Yes" : "No") << endl;
 	return (os);
 }
