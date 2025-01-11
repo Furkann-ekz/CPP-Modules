@@ -47,4 +47,5 @@ void ShrubberyCreationForm::execute(const Bureaucrat &executor) const
 	{
 		throw runtime_error("Failed to create shrubbery file for " + target + ".");
 	}
+	outputFile.close();
 }
