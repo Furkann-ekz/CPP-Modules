@@ -11,5 +11,5 @@ void PresidentialPardonForm::execute(const Bureaucrat &executor) const
 	if (executor.getGrade() > getExecuteGrade())
 		throw AForm::GradeTooHighException();
 
-	cout << target << "has been pardoned by Zaphod Beeblebrox.\n" << endl;
+	cout << target << "has been pardoned by Zaphod Beeblebrox." << endl;
 }
