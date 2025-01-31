@@ -71,8 +71,12 @@ void Scalar::printConversions(char value)
 {
 	cout << "char: '" << value << "'" << endl;
 	cout << "int: " << static_cast<int>(value) << endl;
-	cout << "float: " << static_cast<float>(value) << "f" << endl;
-	cout << "double: " << static_cast<double>(value) << endl;
+	cout << "float: " << static_cast<float>(value);
+	if (static_cast<int>(value) % 1 == 0)
+		cout << ".0" << "f" << endl;
+	cout << "double: " << static_cast<double>(value);
+	if (static_cast<int>(value) % 1 == 0)
+		cout << ".0" << endl;
 }
 
 void Scalar::printConversions(int value)
@@ -83,35 +87,45 @@ void Scalar::printConversions(int value)
 		cout << "char: '" << static_cast<char>(value) << "'" << endl;
 	cout << "int: " << value << endl;
 	cout << "float: " << static_cast<float>(value);
-	if ((int)value % 1 == 0)
+	if (static_cast<int>(value) % 1 == 0)
 		cout << ".0" << "f" << endl;
 	cout << "double: " << static_cast<double>(value);
-	if ((int)value % 1 == 0)
+	if (static_cast<int>(value) % 1 == 0)
 		cout << ".0" << endl;
 }
 
 void Scalar::printConversions(float value)
 {
 	if (std::isnan(value) || std::isinf(value) || value < 0 || value > 127 || !std::isprint(static_cast<int>(value)))
-		cout << "char: impossible" << endl;
+		cout << "char: Unprintable" << endl;
 	else
 		cout << "char: '" << static_cast<char>(value) << "'" << endl;
 	cout << "int: " << static_cast<int>(value) << endl;
 	cout << "float: " << value;
-	if ((int)value % 1 == 0 && (int)value != 0)
-		cout << ".0" << "f" << endl;
+	if (fmod(value, 1.0) == 0.0)
+		cout << ".0";
+	cout << "f" << endl;
 	cout << "double: " << static_cast<double>(value);
-	if ((int)value % 1 == 0)
+	if (fmod(value, 1.0) == 0.0)
 		cout << ".0" << endl;
+	else
+		cout << endl;
 }
 
 void Scalar::printConversions(double value)
 {
 	if (std::isnan(value) || std::isinf(value) || value < 0 || value > 127 || !std::isprint(static_cast<int>(value)))
-		cout << "char: impossible" << endl;
+		cout << "char: Unprintable" << endl;
 	else
 		cout << "char: '" << static_cast<char>(value) << "'" << endl;
 	cout << "int: " << static_cast<int>(value) << endl;
-	cout << "float: " << static_cast<float>(value) << "f" << endl;
-	cout << "double: " << value << endl;
+	cout << "float: " << static_cast<float>(value);
+	if (fmod(value, 1.0) == 0.0)
+		cout << ".0";
+	cout << "f" << endl;
+	cout << "double: " << value;
+	if (fmod(value, 1.0) == 0.0)
+		cout << ".0" << endl;
+	else
+		cout << endl;
 }

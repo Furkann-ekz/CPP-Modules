@@ -5,10 +5,10 @@ int main()
 {
 	Base* randomBase = generate();
 
-	std::cout << "Identify by pointer:" << std::endl;
+	cout << "Identify by pointer:" << endl;
 	identify(randomBase);
 
-	std::cout << "Identify by reference:" << std::endl;
+	cout << "Identify by reference:" << endl;
 	identify(*randomBase);
 
 	delete randomBase;

@@ -5,7 +5,6 @@
 #include <string>
 #include <stdint.h>
 
-using std::string;
 using std::cout;
 using std::endl;
 
