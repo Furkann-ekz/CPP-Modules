@@ -1,43 +1,102 @@
-#include <iostream>
 #include "Array.hpp"
 
-int main()
+#define RANGE 15
+int main(void)
 {
+	Array<int> numbers_null;
+	Array<std::string> chr_null;
+	
+	Array<int> numbers(RANGE);
+	std::srand(std::time(NULL));
+	
+	for (int i = 0; i < RANGE; i++)
+	{
+		
+		try
+		{
+		   numbers[i] = std::rand();
+		}
+		catch(const std::exception& e)
+		{
+			cerr << "Exception: " << e.what() << endl;
+		}
+	}
+	for (int i = 0; i < RANGE; i++)
+	{
+		cout << numbers[i] << endl;
+	}
+	
+
+	Array<double> numbers_d(RANGE);
+	for (int i = 0; i < RANGE; i++)
+	{
+		
+		try
+		{
+		   numbers_d[i] = std::rand();
+		}
+		catch(const std::exception& e)
+		{
+			cerr << "Exception: " << e.what() << endl;
+		}
+	}
+	 for (int i = 0; i < RANGE; i++)
+	{
+		cout << numbers_d[i] << endl;
+	}
+
+	Array<char> chr(RANGE);
+	for (int i = 0; i < RANGE; i++)
+	{
+		try
+		{
+			int randomNumber = std::rand() % 26;
+			chr[i] = 'A' + randomNumber;
+		}
+		catch(const std::exception& e)
+		{
+			cerr << e.what() << endl;
+		}
+	}
+	for (int i = 0; i < RANGE; i++)
+	{
+		cout << chr[i] << endl;
+	}
+
 	try
 	{
-		Array<int> arr(5);
-
-		for (unsigned int i = 0; i < arr.size(); i++)
-			arr[i] = i * 2;
-
-		for (unsigned int i = 0; i < arr.size(); i++)
-			cout << "arr[" << i << "] = " << arr[i] << endl;
-
-		cout << "\nOut-of-bound index'e erişim deneniyor:" << endl;
-		cout << arr[5] << endl;
+		cout << "numbers size: " << numbers.size() << endl;
+		numbers[20] = 5;
 	}
-	catch (std::exception &e)
+	catch(const std::exception& e)
 	{
-		cout << "Exception caught: " << e.what() << endl;
+		cerr << "Exception: " << e.what() << endl;
 	}
 
-	Array<int> a(3);
-
-	for (unsigned int i = 0; i < a.size(); i++)
-		a[i] = i + 1;
-
-	Array<int> b(a);
-	cout << "\nCopy constructor test:" << endl;
-
-	for (unsigned int i = 0; i < b.size(); i++)
-		cout << "b[" << i << "] = " << b[i] << endl;
-
-	Array<int> c;
-	c = a;
-	cout << "\nAssignment operator test:" << endl;
-
-	for (unsigned int i = 0; i < c.size(); i++)
-		cout << "c[" << i << "] = " << c[i] << endl;
+	try
+	{
+		numbers[-2] = 0;
+	}
+	catch(const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+	try
+	{
+		numbers[RANGE] = 0;
+	}
+	catch(const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
+	try
+	{
+		chr[RANGE] = 'A';
+	}
+	catch(const std::exception& e)
+	{
+		cerr << e.what() << endl;
+	}
 
 	return 0;
 }

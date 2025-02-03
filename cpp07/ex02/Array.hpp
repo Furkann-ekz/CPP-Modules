@@ -1,81 +1,63 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-#include <cstddef>
-#include <stdexcept>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using std::cout;
 using std::endl;
+using std::cerr;
 
 template <typename T>
 class Array
 {
-	public:
-		Array() : _data(NULL), _size(0) {}
+	private :
+		T *arr;
+		unsigned int len;
+	public :
+		Array() : arr(0) , len(0) {}
 
-		Array(unsigned int n) : _data(NULL), _size(n)
+		Array(unsigned int n)
 		{
-			if (_size > 0)
-				_data = new T[_size]();
+			arr = new T[n];
+			len = n;
 		}
 
-		Array(const Array& other) : _data(NULL), _size(other._size)
+		Array(const Array &obj)
 		{
-			if (_size > 0)
-			{
-				_data = new T[_size];
-				for (unsigned int i = 0; i < _size; i++)
-					_data[i] = other._data[i];
-			}
+			*this = obj;
 		}
 
-		Array& operator=(const Array& other)
+		Array &operator = (const Array &obj)
 		{
-			if (this != &other)
-			{
-				if (_data)
-					delete[] _data;
-				_size = other._size;
-				if (_size > 0)
-				{
-					_data = new T[_size];
-					for (unsigned int i = 0; i < _size; i++)
-						_data[i] = other._data[i];
-				}
-				else
-					_data = NULL;
-			}
+			if (this == &obj)
+				return *this;
+			len = obj.size();
+			arr = new T[len];
+			
+			for(unsigned int j = 0; j < len; j++)
+				arr[j] = obj.arr[j];
 			return *this;
+		}
+
+		T &operator [] (unsigned int i)
+		{
+			if (i >= len)
+				throw std::out_of_range("invalid value");
+			else
+				return arr[i];
 		}
 
 		~Array()
 		{
-			if (_data)
-				delete[] _data;
+			delete [] arr; 
 		}
 
-		T& operator[](unsigned int index)
+		unsigned int size()
 		{
-			if (index >= _size)
-				throw std::out_of_range("Index out of bounds");
-			return _data[index];
+			return len;
 		}
-
-		const T& operator[](unsigned int index) const
-		{
-			if (index >= _size)
-				throw std::out_of_range("Index out of bounds");
-			return _data[index];
-		}
-
-		unsigned int size() const
-		{
-			return _size;
-		}
-
-	private:
-		T*				_data;
-		unsigned int	_size;
 };
 
 #endif
