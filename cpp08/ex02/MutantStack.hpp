@@ -2,15 +2,19 @@
 #define MUTANTSTACK_HPP
 
 #include <stack>
-#include <iterator>
+#include <deque>
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 template <typename T>
 class MutantStack : public std::stack<T>
 {
 	public:
-		MutantStack() {}
-		MutantStack(const MutantStack &other) : std::stack<T>(other) {}
-		MutantStack &operator=(const MutantStack &other)
+		MutantStack() : std::stack<T>() {}
+		MutantStack(MutantStack const &other) : std::stack<T>(other) {}
+		MutantStack &operator=(MutantStack const &other)
 		{
 			if (this != &other)
 				std::stack<T>::operator=(other);
@@ -18,7 +22,7 @@ class MutantStack : public std::stack<T>
 		}
 		~MutantStack() {}
 
-		typedef typename std::stack<T>::container_type::iterator iterator;
+		typedef typename std::deque<T>::iterator iterator;
 
 		iterator begin() { return std::stack<T>::c.begin(); }
 		iterator end() { return std::stack<T>::c.end(); }
