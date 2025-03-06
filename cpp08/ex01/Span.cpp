@@ -1,16 +1,16 @@
 #include "Span.hpp"
 
-Span::Span(unsigned int N) : _N(N), _numbers() {}
+Span::Span(unsigned int n) : _n(n), _numbers() {}
 
 Span::~Span() {}
 
-Span::Span(const Span &other) : _N(other._N), _numbers(other._numbers) {}
+Span::Span(const Span &other) : _n(other._n), _numbers(other._numbers) {}
 
 Span &Span::operator=(const Span &other)
 {
 	if (this != &other)
 	{
-		_N = other._N;
+		_n = other._n;
 		_numbers = other._numbers;
 	}
 	return *this;
@@ -18,38 +18,123 @@ Span &Span::operator=(const Span &other)
 
 void Span::addNumber(int number)
 {
-	if (_numbers.size() >= _N)
-		throw std::runtime_error("Span is full");
+	if (_numbers.size() >= _n)
+		throw Span::SpanOverflowException();
 	_numbers.push_back(number);
 }
 
-int Span::longestSpan() const
+void Span::addNumbers(unsigned int size)
 {
-	if (_numbers.size() < 2)
-		throw std::runtime_error("Not enough elements to find a span");
-	
-	int min_val = *std::min_element(_numbers.begin(), _numbers.end());
-	int max_val = *std::max_element(_numbers.begin(), _numbers.end());
-	
-	return max_val - min_val;
+    if (_numbers.size() + size > _n)
+        throw Span::SpanOverflowException();
+    for (unsigned int i = 0; i < size; i++)
+        _numbers.push_back(i);
 }
 
-int Span::shortestSpan() const
+int Span::longestSpan()
 {
 	if (_numbers.size() < 2)
-		throw std::runtime_error("Not enough elements to find a span");
+		throw Span::SpanOverflowException();
+	
+	std::vector<int> vec = _numbers;
+    std::sort(vec.begin(), vec.end());
+
+    return vec[vec.size() - 1] - vec[0];
+}
+
+int Span::shortestSpan()
+{
+	if (_numbers.size() < 2)
+		throw Span::SpanOverflowException();
 	
 	std::vector<int> sorted = _numbers;
 
 	std::sort(sorted.begin(), sorted.end());
-	
-	int min_span = std::numeric_limits<int>::max();
-
-	for (size_t i = 1; i < sorted.size(); ++i)
+	int min = sorted[1] - sorted[0];
+	for (size_t i = 2; i < sorted.size(); i++)
 	{
-		int span = sorted[i] - sorted[i - 1];
-		if (span < min_span)
-			min_span = span;
+		if (sorted[i] - sorted[i - 1] < min)
+			min = sorted[i] - sorted[i - 1];
 	}
-	return min_span;
+	return min;
 }
+
+/*
+
+int Span::shortestSpan()
+{
+	if (_numbers.size() <= 1)
+		throw Span::SpanOverflowException();
+	std::vector<int> vec = _numbers;
+	std::sort(vec.begin(), vec.end());
+	int min = vec[1] - vec[0];
+	for (size_t i = 2; i < vec.size(); i++)
+	{
+		if (vec[i] - vec[i - 1] < min)
+			min = vec[i] - vec[i - 1];
+	}
+	return min;
+}
+
+*/
+
+/*
+
+#include "Span.hpp"
+
+Span::Span(unsigned int n) : _n(n), _numbers(std::vector<int>()) {}
+
+Span::Span(Span const &other) : _n(other._n), _numbers(other._numbers) {}
+
+Span &Span::operator=(Span const &other)
+{
+    if (this != &other)
+    {
+        _n = other._n;
+        _numbers = other._numbers;
+    }
+    return *this;
+}
+
+Span::~Span() {}
+
+void Span::addNumber(int n)
+{
+    if (_numbers.size() >= _n)
+        throw Span::SpanOverflowException();
+    _numbers.push_back(n);
+}
+
+void Span::addNumbers(unsigned int size)
+{
+    if (_numbers.size() + size > _n)
+        throw Span::SpanOverflowException();
+    for (unsigned int i = 0; i < size; i++)
+        _numbers.push_back(i);
+}
+
+int Span::shortestSpan()
+{
+    if (_numbers.size() <= 1)
+        throw Span::SpanOverflowException();
+    std::vector<int> vec = _numbers;
+    std::sort(vec.begin(), vec.end());
+    int min = vec[1] - vec[0];
+    for (size_t i = 2; i < vec.size(); i++)
+    {
+        if (vec[i] - vec[i - 1] < min)
+            min = vec[i] - vec[i - 1];
+    }
+    return min;
+}
+
+int Span::longestSpan()
+{
+    if (_numbers.size() <= 1)
+        throw Span::SpanOverflowException();
+    std::vector<int> vec = _numbers;
+    std::sort(vec.begin(), vec.end());
+    return vec[vec.size() - 1] - vec[0];
+}
+
+*/
