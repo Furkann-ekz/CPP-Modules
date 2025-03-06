@@ -1,100 +1,61 @@
 #include <iostream>
 #include "Span.hpp"
 
-void testAddNumber()
+void	pdf_test()
 {
-    Span sp(5);
-    try
-    {
-        std::cout << "Adding numbers individually:" << std::endl;
+	Span sp(5);
 
-        sp.addNumber(10);
-        std::cout << "Added 10" << std::endl;
-        sp.addNumber(20);
-        std::cout << "Added 20" << std::endl;
-        sp.addNumber(30);
-        std::cout << "Added 30" << std::endl;
-        sp.addNumber(40);
-        std::cout << "Added 40" << std::endl;
-        sp.addNumber(50);
-        std::cout << "Added 50" << std::endl;
+	try
+	{
+		sp.addNumber(6);
+		sp.addNumber(3);
+		sp.addNumber(17);
+		sp.addNumber(9);
+		sp.addNumber(11);
+		std::cout << "Numbers added successfully." << std::endl;
 
-        std::cout << "Trying to add another number." << std::endl;
-        sp.addNumber(60);
-    }
-    catch (const Span::SpanOverflowException &e)
-    {
-        std::cout << "Test Failed: " << e.what() << std::endl;
-    }
+		std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << sp.longestSpan() << std::endl;
+
+		sp.addNumber(42);
+	}
+	catch (const Span::SpanOverflowException &e)
+	{
+		std::cout << "Error: " << e.what() << std::endl;
+	}
+	std::cout << std::endl;
 }
 
-void testAddNumbers()
-{
-    Span sp(20000);
-    try
-    {
-        std::cout << "Adding 20000 numbers:" << std::endl;
-
-        sp.addNumbers(20000);
-        std::cout << "Successfully added 20000 numbers" << std::endl;
-
-        std::cout << "Trying to add 20001" << std::endl;
-        sp.addNumber(20001);
-    }
-    catch (const Span::SpanOverflowException &e)
-    {
-        std::cout << "Test Failed: " << e.what() << std::endl;
-    }
-}
-
-void testShortestSpan()
-{
-    Span sp(5);
-    try
-    {
-        sp.addNumber(10);
-        sp.addNumber(20);
-        sp.addNumber(30);
-        sp.addNumber(40);
-        sp.addNumber(50);
-
-        int result = sp.shortestSpan();
-        std::cout << "Test Passed: Shortest Span is " << result << std::endl;
-    }
-    catch (const Span::SpanOverflowException &e)
-    {
-        std::cout << "Test Failed: " << e.what() << std::endl;
-    }
-}
-
-void testLongestSpan()
-{
-    Span sp(5);
-    try
-    {
-        sp.addNumber(10);
-        sp.addNumber(20);
-        sp.addNumber(30);
-        sp.addNumber(40);
-        sp.addNumber(50);
-
-        int result = sp.longestSpan();
-        std::cout << "Test Passed: Longest Span is " << result << std::endl;
-    }
-    catch (const Span::SpanOverflowException &e)
-    {
-        std::cout << "Test Failed: " << e.what() << std::endl;
-    }
-}
+#include "Span.hpp"
 
 int main()
 {
-    std::cout << "Testing Span Class" << std::endl;
+	pdf_test();
 
-    testAddNumber();
-    testAddNumbers();
-    testShortestSpan();
-    testLongestSpan();
+	Span sp2(10);
+	try
+	{
+		sp2.addNumbers(8);
+		std::cout << "8 numbers added successfully." << std::endl;
 
-    return 0;
+		std::cout << "Shortest span: " << sp2.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << sp2.longestSpan() << std::endl;
+	}
+	catch (const Span::SpanOverflowException &e)
+	{
+		std::cout << "Error: " << e.what() << std::endl;
+	}
+
+	Span sp3(3);
+	try
+	{
+		sp3.addNumber(1);
+		std::cout << "Shortest span: " << sp3.shortestSpan() << std::endl;
+	}
+	catch (const Span::SpanOverflowException &e)
+	{
+		std::cout << "Error: " << e.what() << std::endl;
+	}
+
+	return 0;
 }

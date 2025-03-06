@@ -1,14 +1,13 @@
 #include "MutantStack.hpp"
 
-void testFromPdf()
+void pdf_test(void)
 {
-	cout << "Testing MutantStack with test from the PDF" << endl;
 	MutantStack<int> mstack;
 	mstack.push(5);
 	mstack.push(17);
-	cout << "Top element: " << mstack.top() << endl;
+	std::cout << mstack.top() << std::endl;
 	mstack.pop();
-	cout << "Size of mstack: " <<  mstack.size() << endl;
+	std::cout << mstack.size() << std::endl;
 	mstack.push(3);
 	mstack.push(5);
 	mstack.push(737);
@@ -17,54 +16,40 @@ void testFromPdf()
 	MutantStack<int>::iterator ite = mstack.end();
 	++it;
 	--it;
-	cout << "Elements of mstack: " << endl;
 	while (it != ite)
 	{
-		cout << *it << endl;
-		++it;
+	std::cout << *it << std::endl;
+	++it;
 	}
 	std::stack<int> s(mstack);
-
-}
-
-void testIterator()
-{
-	cout <<  "Starting the test of mine for iterator feature." << endl;
-	MutantStack<int> stack;
-
-	stack.push(10);
-	cout << "Adding 10 to stack." << endl;
-	stack.push(20);
-	cout << "Adding 20 to stack." << endl;
-	stack.push(30);
-	cout << "Adding 30 to stack." << endl;
-
-	MutantStack<int>::iterator it = stack.begin();
-	
-	cout << "First element of stack: " << *it << endl;
-	if (*it != 10)
-	   { std::cerr << "Test failed: Iterator should point to 10" << endl; return; }
-	
-	++it;
-	cout << "Secont element of stack: " << *it << endl;
-	if (*it != 20)
-		{ std::cerr << "Test failed: Iterator should point to 20" << endl; return; }
-	
-	++it;
-	cout << "Third element of stack: " << *it << endl;
-	if (*it != 30)
-		{ std::cerr << "Test failed: Iterator should point to 30" << endl; return; }
-
-	++it;
-	if (it != stack.end())
-		{ std::cerr << "Test failed: Iterator should be at the end after moving past the last element" << endl; return; }
-
-	cout << "Iterator test passed!" << endl;
 }
 
 int main()
 {
-	testFromPdf();
-	testIterator();
+	pdf_test();
+	std::cout << std::endl;
+	MutantStack<int> mstack;
+
+	mstack.push(5);
+	mstack.push(17);
+	mstack.push(3);
+	mstack.push(42);
+	mstack.push(99);
+
+	std::cout << "Stack size: " << mstack.size() << std::endl;
+	std::cout << "Top element: " << mstack.top() << std::endl;
+
+	mstack.pop();
+	std::cout << "Top element after pop(): " << mstack.top() << std::endl;
+
+	std::cout << "Elements in the stack: ";
+	MutantStack<int>::iterator it = mstack.begin();
+	while (it != mstack.end())
+	{
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+
 	return 0;
 }
