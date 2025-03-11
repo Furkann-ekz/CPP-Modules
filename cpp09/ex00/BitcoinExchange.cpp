@@ -1,5 +1,4 @@
 #include "BitcoinExchange.hpp"
-#include <sstream>
 
 BitcoinExchange::BitcoinExchange()
 {
