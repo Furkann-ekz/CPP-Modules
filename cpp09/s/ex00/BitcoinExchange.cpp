@@ -1,0 +1,66 @@
+#include "BitcoinExchange.hpp"
+
+BitcoinExchange::BitcoinExchange()
+{
+	loadData("data.csv");
+}
+
+BitcoinExchange::~BitcoinExchange() {}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : exchangeRates(other.exchangeRates) {}
+
+BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
+{
+	if (this != &other)
+		*this = other;
+	return *this;
+}
+
+bool BitcoinExchange::isValidDate(std::string *string)
+{
+	std::string s;
+	int i = 0;
+	int x;
+	int k = 0;
+	x = string->length();
+	cout << x << endl;
+	// while (k < x)
+	// {
+	// 	s = string[i];
+	// 	char c = 
+	// 	if ()
+	// 	k++;
+	// }
+	return true;
+}
+
+void BitcoinExchange::loadData(const std::string &f)
+{
+	std::ifstream file(f.c_str());
+
+	if (!file.is_open())
+	{
+		std::cerr << "Error: wrong file name or access denied." << endl;
+		return ;
+	}
+	std::string line;
+	int i = 1000;
+	std::string *splitLine = new std::string[1612];
+	std::getline(file, line);
+	int j = 0;
+	while (std::getline(file, line) && j < 1612)
+	{
+		std::stringstream s;
+		s << i++ << '-' << line;
+		splitLine[j] = s.str();
+		j++;
+	}
+	file.close();
+	isValidDate(splitLine);
+
+	// int x = -1;
+	// while (++x < j)
+	// 	cout << splitLine[x] << endl;
+	// cout << splitLine[0] << endl;
+	delete[] splitLine;
+}
