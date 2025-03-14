@@ -21,6 +21,7 @@ class BitcoinExchange
 
 		void loadData(const std::string &f);
 		bool isValidDate(std::string *string);
+		void start(char **av);
 };
 
 #endif

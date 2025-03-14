@@ -16,21 +16,25 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 	return *this;
 }
 
+void BitcoinExchange::start(char **av) {}
+
 bool BitcoinExchange::isValidDate(std::string *string)
 {
-	std::string s;
-	int i = 0;
-	int x;
+	int lenght;
 	int k = 0;
-	x = string->length();
-	cout << x << endl;
-	// while (k < x)
-	// {
-	// 	s = string[i];
-	// 	char c = 
-	// 	if ()
-	// 	k++;
-	// }
+	std::string &s = string[k];
+	int i = 0;
+	lenght = s.length();
+	int x = 0;
+	while (x < 1612)
+	{
+		while (k < lenght)
+		{
+			
+			char c = 
+			k++;
+		}
+	}
 	return true;
 }
 
