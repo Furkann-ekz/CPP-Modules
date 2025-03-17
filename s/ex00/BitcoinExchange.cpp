@@ -16,6 +16,60 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 	return *this;
 }
 
+std::string getDate(std::string *s, int lines)
+{
+	int j = 0;
+	while (j < lines)
+	{
+		std::string &line = s[j];
+		int x = 0;
+		int length = line.length();
+		while (x < length)
+		{
+			std::string date;
+			std::stringstream ss(line);
+			std::string temp, syear, smonth, sday;
+			int year, month, day;
+			float rate;
+
+			std::getline(ss, date, ' ');
+			ss >> rate;
+			ss.clear();
+			ss.str("");
+			ss.str(date);
+
+			std::getline(ss, syear, '-');
+			std::getline(ss, smonth, '-');
+			std::getline(ss, sday, ' ');
+			
+			ss.clear();
+			ss.str("");
+			ss.str(syear);
+			ss >> year;
+
+			ss.clear();
+			ss.str("");
+			ss.str(smonth);
+			ss >> month;
+
+			ss.clear();
+			ss.str("");
+			ss.str(sday);
+			ss >> day;
+
+			if (year < 2009 && month < 1 && day < 2)
+			{
+				cout << "test" << endl << endl;
+				return ("2009-01-02");
+			}
+			else if (line[x] == '-' && x > 4)
+				return ("2022-03-29");
+			x++;
+		}
+	}
+	return ("test");
+}
+
 void BitcoinExchange::start(char *av)
 {
 	std::ifstream file(av);
@@ -24,7 +78,31 @@ void BitcoinExchange::start(char *av)
 		std::cerr << "Error: file cannot be opened." << endl;
 		return ;
 	}
-	cout << endl;
+	std::string line;
+	int i = 0;
+	while (std::getline(file, line))
+		i++;
+	std::string *splitString = new std::string[i];
+	file.close();
+	file.open(av);
+	if (!file.is_open())
+	{
+		std::cerr << "Error: file cannot be opened." << endl;
+		return ;
+	}
+	int j = -1;
+	while (std::getline(file, line) && j < i)
+	{
+		std::stringstream s;
+		s << line;
+		splitString[++j] = s.str();
+	}
+	std::string date;
+	j = -1;
+	while (++j < i)
+	{
+		date = getDate(splitString, i);
+	}
 }
 
 bool characterControl(char c)
@@ -37,7 +115,7 @@ bool characterControl(char c)
 	return false;
 }
 
-bool BitcoinExchange::isValidValue(float gvalue)
+bool BitcoinExchange::isValidValue(float value)
 {
 	return value >= 0 && value <= 1000;
 }
@@ -50,10 +128,8 @@ bool BitcoinExchange::isValidDate(std::string string)
 	int year, month, day;
 	std::stringstream s(string);
 	char dash;
-	cout << s.str() << endl;
 	s >> year >> dash >> month >> dash >> day;
-
-	if (s.fail() || s.eof())
+	if (s.fail())
 		return false;
 	if (month < 1 || month > 12 || day < 1 || day > 31)
 		return false;
@@ -80,6 +156,7 @@ void BitcoinExchange::loadData(const std::string &f)
 		std::getline(ss, date, ',');
 		ss >> rate;
 
+		cout << date << endl;
 		if (ss.fail() || !isValidDate(date))
 			continue;
 		exchangeRates[date] = rate;
