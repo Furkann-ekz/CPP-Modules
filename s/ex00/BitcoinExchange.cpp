@@ -16,58 +16,66 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 	return *this;
 }
 
-std::string getDate(std::string *s, int lines)
+std::string BitcoinExchange::getDate(std::string s)
 {
-	int j = 0;
-	while (j < lines)
+	bool little = false, control = false;
+
+	std::string date, syear, smonth, sday, temp;
+	std::stringstream ss(s);
+	int year, month, day;
+	std::getline(ss, date, ' ');
+	
+	ss.clear();
+	ss.str("");
+	ss.str(s);
+	
+	std::getline(ss, syear, '-');
+	std::getline(ss, smonth, '-');
+	std::getline(ss, sday, ' ');
+	
+	ss.clear();
+	ss.str("");
+	ss.str(syear);
+	ss >> year;
+	
+	ss.clear();
+	ss.str("");
+	ss.str(smonth);
+	ss >> month;
+	
+	ss.clear();
+	ss.str("");
+	ss.str(sday);
+	ss >> day;
+
+	//cout << year << ' ' << month << ' ' << day << endl;
+
+	if (year < 2009)
 	{
-		std::string &line = s[j];
-		int x = 0;
-		int length = line.length();
-		while (x < length)
-		{
-			std::string date;
-			std::stringstream ss(line);
-			std::string temp, syear, smonth, sday;
-			int year, month, day;
-			float rate;
-
-			std::getline(ss, date, ' ');
-			ss >> rate;
-			ss.clear();
-			ss.str("");
-			ss.str(date);
-
-			std::getline(ss, syear, '-');
-			std::getline(ss, smonth, '-');
-			std::getline(ss, sday, ' ');
-			
-			ss.clear();
-			ss.str("");
-			ss.str(syear);
-			ss >> year;
-
-			ss.clear();
-			ss.str("");
-			ss.str(smonth);
-			ss >> month;
-
-			ss.clear();
-			ss.str("");
-			ss.str(sday);
-			ss >> day;
-
-			if (year < 2009 && month < 1 && day < 2)
-			{
-				cout << "test" << endl << endl;
-				return ("2009-01-02");
-			}
-			else if (line[x] == '-' && x > 4)
-				return ("2022-03-29");
-			x++;
-		}
+		little = true;
+		control = true;
 	}
-	return ("test");
+	if (year <= 2009 && month < 1)
+	{
+		little = true;
+		control = true;
+	}
+	if (year <= 2009 && month <= 1 && day < 2)
+	{
+		little = true;
+		control = true;
+	}
+	if (year > 2022)
+		control = true;
+	if (year >= 2022 && month > 3)
+		control = true;
+	if (year >= 2022 && month >= 3 && day > 29)
+		control = true;
+	if (little == true && control == true)
+		return ("2009-01-02");
+	else if (control == true)
+		return ("2022-03-29");
+	return (date);
 }
 
 void BitcoinExchange::start(char *av)
@@ -93,15 +101,21 @@ void BitcoinExchange::start(char *av)
 	int j = -1;
 	while (std::getline(file, line) && j < i)
 	{
-		std::stringstream s;
-		s << line;
+		std::stringstream s(line);
 		splitString[++j] = s.str();
 	}
 	std::string date;
 	j = -1;
 	while (++j < i)
 	{
-		date = getDate(splitString, i);
+		date = getDate(splitString[j]);
+		if (!(exchangeRates.count(date) > 0))
+		{
+			// data_csv'nin dizilerinde dolaşıp en yakın olan tarihi arayacak bir fonksiyon yazacağım.
+			std::stringstream s(data_csv[j - 1]);
+			std::getline(s, date, ' ');
+		}
+		cout << "date: " << date << endl;
 	}
 }
 
@@ -136,6 +150,33 @@ bool BitcoinExchange::isValidDate(std::string string)
 	return true;
 }
 
+bool BitcoinExchange::beLoadData_csv(const std::string &f)
+{
+	data_csv = new std::string[1612];
+	std::ifstream file(f.c_str());
+	if (!file.is_open())
+	{
+		std::cerr << "Error: could not open database file." << std::endl;
+		return false;
+	}
+	std::string line;
+	std::getline(file, line);
+	int i = 0;
+	while (std::getline(file, line))
+	{
+		std::stringstream ss(line);
+		std::string date;
+
+		std::getline(ss, date, ',');
+		data_csv[i] = date;
+		if (ss.fail())
+			continue;
+		i++;
+	}
+	file.close();
+	return true;
+}
+
 void BitcoinExchange::loadData(const std::string &f)
 {
 	std::ifstream file(f.c_str());
@@ -156,10 +197,14 @@ void BitcoinExchange::loadData(const std::string &f)
 		std::getline(ss, date, ',');
 		ss >> rate;
 
-		cout << date << endl;
 		if (ss.fail() || !isValidDate(date))
 			continue;
 		exchangeRates[date] = rate;
 	}
 	file.close();
+	if (beLoadData_csv(f) == false)
+	{
+		std::cerr << "Error: could not open database file." << std::endl;
+		return;
+	}
 }
