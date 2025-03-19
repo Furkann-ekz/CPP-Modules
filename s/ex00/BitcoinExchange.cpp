@@ -18,8 +18,6 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 
 std::string BitcoinExchange::getDate(std::string s)
 {
-	bool little = false, control = false;
-
 	std::string date, syear, smonth, sday, temp;
 	std::stringstream ss(s);
 	int year, month, day;
@@ -48,32 +46,15 @@ std::string BitcoinExchange::getDate(std::string s)
 	ss.str(sday);
 	ss >> day;
 
-	//cout << year << ' ' << month << ' ' << day << endl;
-
 	if (year < 2009)
-	{
-		little = true;
-		control = true;
-	}
-	if (year <= 2009 && month < 1)
-	{
-		little = true;
-		control = true;
-	}
-	if (year <= 2009 && month <= 1 && day < 2)
-	{
-		little = true;
-		control = true;
-	}
-	if (year > 2022)
-		control = true;
-	if (year >= 2022 && month > 3)
-		control = true;
-	if (year >= 2022 && month >= 3 && day > 29)
-		control = true;
-	if (little == true && control == true)
 		return ("2009-01-02");
-	else if (control == true)
+	if (year == 2009 && month == 1 && day < 2)
+		return ("2009-01-02");
+	if (year > 2022)
+		return ("2022-03-29");
+	if (year == 2022 && month > 3)
+		return ("2022-03-29");
+	if (year == 2022 && month == 3 && day > 29)
 		return ("2022-03-29");
 	return (date);
 }
@@ -90,7 +71,7 @@ void BitcoinExchange::start(char *av)
 	int i = 0;
 	while (std::getline(file, line))
 		i++;
-	std::string *splitString = new std::string[i];
+	std::string *listString = new std::string[i];
 	file.close();
 	file.open(av);
 	if (!file.is_open())
@@ -102,18 +83,18 @@ void BitcoinExchange::start(char *av)
 	while (std::getline(file, line) && j < i)
 	{
 		std::stringstream s(line);
-		splitString[++j] = s.str();
+		listString[++j] = s.str();
 	}
 	std::string date;
 	j = -1;
 	while (++j < i)
 	{
-		date = getDate(splitString[j]);
+		date = getDate(listString[j]);
 		if (!(exchangeRates.count(date) > 0))
 		{
-			// data_csv'nin dizilerinde dolaşıp en yakın olan tarihi arayacak bir fonksiyon yazacağım.
-			std::stringstream s(data_csv[j - 1]);
-			std::getline(s, date, ' ');
+			std::stringstream s(date);
+			// date'in yanlış tarih olması durumunda kendinden önceki tarihi bulan bir fonksiyon yazılacak.
+			//cout << "date 2: " << date << endl;
 		}
 		cout << "date: " << date << endl;
 	}
