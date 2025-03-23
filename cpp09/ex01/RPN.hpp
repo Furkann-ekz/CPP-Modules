@@ -1,24 +1,27 @@
 #ifndef RPN_HPP
 #define RPN_HPP
 
-#include <stack>
 #include <string>
+#include <list>
+#include <iostream>
+#include <sstream>
 
-class RPN 
+using std::cout;
+using std::endl;
+
+class RPN
 {
 	private:
-		std::stack<int> numbers;
-
-		bool isOperator(const std::string& token) const;
-		int performOperation(int a, int b, const std::string& op) const;
-
+		std::list<char> arg;
 	public:
 		RPN();
-		RPN(const RPN& other);
+		RPN(const RPN &other);
+		RPN &operator=(const RPN &other);
 		~RPN();
-		RPN& operator=(const RPN& other);
 
-		void calculate(const std::string& expression);
+		bool getList(const std::string &expression);
+		void calculate(const std::string &av);
+		bool argControl(void);
 };
 
 #endif

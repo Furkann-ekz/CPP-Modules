@@ -1,4 +1,4 @@
-NAME	=	PmergeMe
+NAME	=	RPN
 SRCS	=	main.cpp RPN.cpp
 OBJS	=	$(SRCS:.cpp=.o)
 FLAGS	=	-Wall -Wextra -Werror -std=c++98
