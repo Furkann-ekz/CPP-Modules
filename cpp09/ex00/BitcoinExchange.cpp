@@ -94,32 +94,45 @@ void BitcoinExchange::start(char *av)
 			date = findDate(date);
 		cout << date << " | " << exchangeRates[date] << endl;
 	}
+	
 	delete[] data_csv;
 	delete[] listString;
 }
 
 std::string BitcoinExchange::findDate(std::string date)
 {
-	int i = -1;
 	std::stringstream s(date);
 	int year, month, day;
 	char temp;
 	s >> year >> temp >> month >> temp >> day;
-	// cout << year << temp << month << temp << day << endl;
-	while (++i < 1612)
+
+	std::string closest_date = "2009-01-02";
+	bool found = false;
+
+	for (int i = 0; i < 1612; ++i)
 	{
-		s.clear();
-		s.str("");
-		s.str(data_csv[i]);
+		std::stringstream ss(data_csv[i]);
 		int y, m, d;
-		s >> y >> temp >> m >> temp >> d;
-		if (y == year && month == m && d > day)
+		ss >> y >> temp >> m >> temp >> d;
+
+		if ((y < year) || 
+			(y == year && m < month) || 
+			(y == year && m == month && d < day))
 		{
-			date = data_csv[i - 1];
-			break ;
+			closest_date = data_csv[i];
+			found = true;
 		}
+		else if (y > year || (y == year && m > month) || (y == year && m == month && d >= day))
+			break;
 	}
-	return (date);
+
+	if (!found)
+	{
+		std::cerr << "Error: No earlier date found for " << date << std::endl;
+		return closest_date;
+	}
+
+	return closest_date;
 }
 
 bool characterControl(char c)
@@ -173,7 +186,7 @@ bool BitcoinExchange::beLoadData_csv(const std::string &f)
 		std::getline(ss, date, ',');
 		data_csv[i] = date;
 		if (ss.fail())
-		continue;
+			continue;
 		i++;
 	}
 	file.close();
