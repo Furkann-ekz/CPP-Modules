@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <iomanip>
 
 using std::cout;
 using std::endl;
@@ -14,6 +15,7 @@ class BitcoinExchange
 	private:
 		std::map<std::string, float> exchangeRates;
 		std::string *data_csv;
+		double value;
 	public:
 		BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &other);
@@ -23,10 +25,10 @@ class BitcoinExchange
 		void loadData(const std::string &f);
 		bool isValidDate(std::string string);
 		void start(char *av);
-		bool isValidValue(float value);
 		std::string getDate(std::string s);
 		bool beLoadData_csv(const std::string &f);
 		std::string findDate(std::string date);
+		bool invalidDate(std::string &date);
 };
 
 #endif
