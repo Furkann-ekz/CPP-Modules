@@ -31,11 +31,12 @@ bool RPN::getList(const std::string &expression)
 	size_t i = 0;
 	int num = 0;
 	int op = 0;
+	
 	while (i < expression.length())
 	{
 		while (isspace(expression[i]))
 			i++;
-		if (isdigit(expression[i]) && expression[i] <= '9' && expression[i] > '0')
+		if (isdigit(expression[i]) && expression[i] <= '9' && expression[i] >= '0')
 		{
 			num++;
 			arg.push_back(expression[i]);
@@ -45,7 +46,7 @@ bool RPN::getList(const std::string &expression)
 			op++;
 			ops.push_back(expression[i]);
 		}
-		if (!((isdigit(expression[i]) && expression[i] <= '9' && expression[i] > '0') || (operatorControl(expression[i]))))
+		if (!((isdigit(expression[i]) && expression[i] <= '9' && expression[i] >= '0') || (operatorControl(expression[i]))))
 		{
 			std::cerr << "Error: Invalid value." << endl;
 			return false;
@@ -59,16 +60,26 @@ bool RPN::getList(const std::string &expression)
 	}
 	arg.push_back('p');
 	ops.push_back('p');
+	i = 0;
+	
+	while (isspace(expression[i]))
+		i++;
+	if (expression[i] <= '9' && expression[i] >= '0')
+		i++;
+	while (isspace(expression[i]))
+		i++;
+	if (operatorControl(expression[i]))
+	{
+		std::cerr << "Error: Bad using. Example: ./RPN '3 6 + 8 -'" << endl;
+		return false;
+	}
 	return true;
 }
 
-long long process(int a, int b, char c)
+long process(int a, int b, char c)
 {
-	long long	x = 0;
-	bool		control = false;
+	long	x = 0;
 
-	if (a > 0 && b > 0)
-		control = true;
 	if (c == '+')
 		x = a + b;
 	else if (c == '*')
@@ -77,17 +88,12 @@ long long process(int a, int b, char c)
 		x = a - b;
 	else if (c == '/')
 		x = a / b;
-	if (x <= 0 && control == true)
-	{
-		std::cerr << "Error: Result is not within integer limits." << endl;
-		return (2147483648);
-	}
 	if (x > 2147483647 || x < -2147483648)
 	{
 		std::cerr << "Error: Result is not within integer limits." << endl;
 		return (2147483648);
 	}
-	return (x);	
+	return (x);
 }
 
 void RPN::calculate(const std::string &av)
@@ -95,18 +101,19 @@ void RPN::calculate(const std::string &av)
 	if (getList(av) == false)
 		return ;
 	std::list<char>::iterator iterator = arg.begin();
-	long long a = *iterator - 48;
+	std::list<char>::iterator op = ops.begin();
+	long a = *iterator - 48;
 	iterator++;
-	long long b = *iterator - 48;
+	long b = *iterator - 48;
 	while (*iterator != 'p')
 	{
-		iterator++;
-		a = process(a, b, *iterator);
+		a = process(a, b, *op);
 		if (a > 2147483647 || a < -2147483648)
 			return ;
-		if (*iterator == '+' || *iterator == '-' || *iterator == '*' || *iterator == '/')
-			iterator++;
-		b = *iterator - 48;
+		iterator++;
+		if (*iterator != 'p')
+			b = *iterator - 48;
+		op++;
 	}
 	cout << a << endl;
 }

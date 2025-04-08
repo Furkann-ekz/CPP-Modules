@@ -14,6 +14,7 @@ class RPN
 	private:
 		std::list<char> arg;
 		std::list<char> ops;
+		std::list<char> controler;
 	public:
 		RPN();
 		RPN(const RPN &other);
