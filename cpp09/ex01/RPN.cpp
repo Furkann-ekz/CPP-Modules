@@ -2,12 +2,15 @@
 
 RPN::RPN() {}
 
-RPN::RPN(const RPN &other): arg(other.arg) {}
+RPN::RPN(const RPN &other): arg(other.arg), ops(other.ops) {}
 
 RPN &RPN::operator=(const RPN &other)
 {
 	if (this != &other)
+	{
 		arg = other.arg;
+		ops = other.ops;
+	}
 	return *this;
 }
 
@@ -37,12 +40,12 @@ bool RPN::getList(const std::string &expression)
 			num++;
 			arg.push_back(expression[i]);
 		}
-		else if (operatorControl(expression[i]))
+		if (operatorControl(expression[i]))
 		{
 			op++;
-			arg.push_back(expression[i]);
+			ops.push_back(expression[i]);
 		}
-		else
+		if (!((isdigit(expression[i]) && expression[i] <= '9' && expression[i] > '0') || (operatorControl(expression[i]))))
 		{
 			std::cerr << "Error: Invalid value." << endl;
 			return false;
@@ -54,32 +57,14 @@ bool RPN::getList(const std::string &expression)
 		std::cerr << "Error: Bad using. Example: ./RPN '3 6 + 8 -'" << endl;
 		return false;
 	}
-	arg.push_back('0');
-	return true;
-}
-
-bool RPN::argControl(void)
-{
-	std::list<char>::iterator iterator = arg.begin();
-	char x;
-	x = *iterator;
-	iterator++;
-	while (*iterator != '0')
-	{
-		if (operatorControl(x) && operatorControl(*iterator))
-		{
-			std::cerr << "Error: Bad using. Example: ./RPN '3 6 + 8 -'" << endl;
-			return false;
-		}
-		x = *iterator;
-		iterator++;
-	}
+	arg.push_back('p');
+	ops.push_back('p');
 	return true;
 }
 
 long long process(int a, int b, char c)
 {
-	long long	x;
+	long long	x = 0;
 	bool		control = false;
 
 	if (a > 0 && b > 0)
@@ -97,7 +82,7 @@ long long process(int a, int b, char c)
 		std::cerr << "Error: Result is not within integer limits." << endl;
 		return (2147483648);
 	}
-	if (x > 2147483647 && x < -2147483648)
+	if (x > 2147483647 || x < -2147483648)
 	{
 		std::cerr << "Error: Result is not within integer limits." << endl;
 		return (2147483648);
@@ -109,13 +94,11 @@ void RPN::calculate(const std::string &av)
 {
 	if (getList(av) == false)
 		return ;
-	if (argControl() == false)
-		return ;
 	std::list<char>::iterator iterator = arg.begin();
 	long long a = *iterator - 48;
 	iterator++;
 	long long b = *iterator - 48;
-	while (*iterator != '0')
+	while (*iterator != 'p')
 	{
 		iterator++;
 		a = process(a, b, *iterator);

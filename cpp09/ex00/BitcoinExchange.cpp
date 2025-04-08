@@ -32,6 +32,7 @@ void BitcoinExchange::start(char *av)
 	if (!file.is_open())
 	{
 		std::cerr << "Error: file cannot be opened." << endl;
+		delete[] data_csv;
 		return ;
 	}
 
@@ -47,6 +48,8 @@ void BitcoinExchange::start(char *av)
 	if (!file.is_open())
 	{
 		std::cerr << "Error: file cannot be opened." << endl;
+		delete[] data_csv;
+		delete[] listString;
 		return ;
 	}
 
@@ -59,20 +62,21 @@ void BitcoinExchange::start(char *av)
 	}
 
 	std::string date;
-	double val = 0.0;
-	bool control = true;
-
+	float val = 0.0;
+	bool control;
 	j = 0;
 	while (++j < i)
 	{
 		std::stringstream v(listString[j]);
 		std::getline(v, date, '|');
+		control = true;
 		v >> val;
-		if (val < 0 || static_cast<long long>(val) > 1000)
+		if (val < 0.0f || static_cast<long long>(val) > 1000.0f)
 		{
-			if (val < 0)
+			if (val < 0.0f)
 				std::cerr << "Error: not a positive number." << endl;
-			std::cerr << "Error: too large number." << endl;
+			else
+				std::cerr << "Error: too large number." << endl;
 			control = false;
 			continue;
 		}
@@ -88,13 +92,14 @@ void BitcoinExchange::start(char *av)
 			date = findDate(date);
 		if (invalidDate(date))
 			continue;
-		double result = exchangeRates[date] * value;
-		if (result < 0 || static_cast<long long>(result) > 2147483647)
-			result = 2147483647;
+		float result = exchangeRates[date] * value;
+		if (result < 0.0f || static_cast<long long>(result) > 2147483647.0f)
+			result = 2147483647.0f;
 		std::cout << std::fixed << std::setprecision(2);
 		cout << date << " => " << value << " = " << result << endl;
 	}
 
+	file.close();
 	delete[] data_csv;
 	delete[] listString;
 }

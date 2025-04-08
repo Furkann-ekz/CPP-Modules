@@ -27,9 +27,9 @@ void PmergeMe::validateInput(int ac, char **av)
 		std::stringstream ss(av[i]);
 		int num;
 		ss >> num;
-		if (ss.fail() || !ss.eof() || num < 0 || num > std::numeric_limits<int>::max())
+		if (ss.fail() || !ss.eof() || num < 0 || num > 2147483647)
 		{
-			std::cerr << "Error: Invalid input '" << av[i] << "'" << std::endl;
+			std::cerr << "Error: Invalid input." << std::endl;
 			throw std::exception();
 		}
 		vec.push_back(num);
@@ -100,6 +100,8 @@ void PmergeMe::sort(int ac, char **av)
 		return;
 	}
 
+	clock_t vec_start_total = clock();
+
 	try
 	{
 		validateInput(ac, av);
@@ -114,21 +116,32 @@ void PmergeMe::sort(int ac, char **av)
 		std::cout << vec[i] << " ";
 	std::cout << std::endl;
 
-	clock_t start_vec = clock();
+	clock_t vec_sort_start = clock();
 	fordJohnsonSort(vec, 0, vec.size() - 1);
-	clock_t end_vec = clock();
-	double time_vec = static_cast<double>(end_vec - start_vec) * 1000000 / CLOCKS_PER_SEC;
+	clock_t vec_sort_end = clock();
 
-	clock_t start_deq = clock();
+	clock_t vec_end_total = clock();
+
+	double vec_sort_time = static_cast<double>(vec_sort_end - vec_sort_start) * 1000000 / CLOCKS_PER_SEC;
+	double vec_total_time = static_cast<double>(vec_end_total - vec_start_total) * 1000000 / CLOCKS_PER_SEC;
+
+	clock_t deq_start_total = clock();
+
+	clock_t deq_sort_start = clock();
 	fordJohnsonSort(deq, 0, deq.size() - 1);
-	clock_t end_deq = clock();
-	double time_deq = static_cast<double>(end_deq - start_deq) * 1000000 / CLOCKS_PER_SEC;
+	clock_t deq_sort_end = clock();
+
+	clock_t deq_end_total = clock();
+
+	double deq_sort_time = static_cast<double>(deq_sort_end - deq_sort_start) * 1000000 / CLOCKS_PER_SEC;
+	double deq_total_time = static_cast<double>(deq_end_total - deq_start_total) * 1000000 / CLOCKS_PER_SEC;
 
 	std::cout << "After:  ";
 	for (size_t i = 0; i < vec.size(); ++i)
 		std::cout << vec[i] << " ";
 	std::cout << std::endl;
 
-	std::cout << "Time to process a range of " << vec.size() << " elements with std::vector: " << time_vec << " us" << std::endl;
-	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque: "  << time_deq << " us" << std::endl;
+	std::cout << "Time to process a range of " << vec.size() << " elements with std::vector: " << vec_total_time << " microsecond (sort: " << vec_sort_time << " microsecond)" << std::endl;
+
+	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque: " << deq_total_time << " microsecond (sort: " << deq_sort_time << " microsecond)" << std::endl;
 }

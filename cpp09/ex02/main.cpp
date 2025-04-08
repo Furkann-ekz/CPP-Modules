@@ -6,3 +6,4 @@ int main(int ac, char **av)
     pm.sort(ac, av);
     return 0;
 }
+// deque ve vector arasındaki zaman farkının sebebi?

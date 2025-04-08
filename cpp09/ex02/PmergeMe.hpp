@@ -11,7 +11,7 @@ class PmergeMe
 		std::vector<int> vec;
 		std::deque<int> deq;
 
-		void validateInput(int argc, char* argv[]);
+		void validateInput(int ac, char **av);
 		template <typename T>
 		void fordJohnsonSort(T& container, int left, int right);
 		template <typename T>

@@ -13,6 +13,7 @@ class RPN
 {
 	private:
 		std::list<char> arg;
+		std::list<char> ops;
 	public:
 		RPN();
 		RPN(const RPN &other);
@@ -21,7 +22,6 @@ class RPN
 
 		bool getList(const std::string &expression);
 		void calculate(const std::string &av);
-		bool argControl(void);
 };
 
 #endif
