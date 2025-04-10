@@ -55,7 +55,7 @@ bool RPN::getList(const std::string &expression)
 	}
 	if (num != op + 1)
 	{
-		std::cerr << "Error: Bad using. Example: ./RPN '3 6 + 8 -'" << endl;
+		std::cerr << "Error: Bad using. Example: ./RPN \"3 6 + 8 -\"" << endl;
 		return false;
 	}
 	arg.push_back('p');
@@ -70,7 +70,7 @@ bool RPN::getList(const std::string &expression)
 		i++;
 	if (operatorControl(expression[i]))
 	{
-		std::cerr << "Error: Bad using. Example: ./RPN '3 6 + 8 -'" << endl;
+		std::cerr << "Error: Bad using. Example: ./RPN \"3 6 + 8 -\"" << endl;
 		return false;
 	}
 	return true;
