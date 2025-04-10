@@ -15,7 +15,7 @@ class BitcoinExchange
 	private:
 		std::map<std::string, float> exchangeRates;
 		std::string *data_csv;
-		double value;
+		float value;
 	public:
 		BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &other);

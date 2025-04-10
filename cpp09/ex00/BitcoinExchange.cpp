@@ -6,14 +6,20 @@ BitcoinExchange::BitcoinExchange()
 	value = 0;
 }
 
-BitcoinExchange::~BitcoinExchange() {}
+BitcoinExchange::~BitcoinExchange()
+{
+	if (data_csv)
+		delete[] data_csv;
+}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : exchangeRates(other.exchangeRates) {}
 
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 {
 	if (this != &other)
-		*this = other;
+	{
+		exchangeRates = other.exchangeRates;
+	}
 	return *this;
 }
 
@@ -26,13 +32,71 @@ std::string BitcoinExchange::getDate(std::string s)
 	return (date);
 }
 
+bool valueControl(std::string val)
+{
+	size_t i = 0;
+	cout << val << endl;
+	if (val[0] == '-')
+		return (std::cerr << "Error: not a positive number." << endl, false);
+	else if (val[0] == '0' && val[1] != '.')
+		return (std::cerr << "Error: 0 is invalid value." << endl, false);
+	else if (val[0] == '0' && val[1] == '.')
+	{
+		size_t i = 2;
+		while (val[i] == '0')
+			i++;
+		if (i > 9)
+			return (std::cerr << "Error: DO YOU THINK THIS IS A FLOAT NUMBER?!" << endl, false);
+		if (val[i] && !(val[i] > '0' && val[i] <= '9'))
+			return (std::cerr << "Error: invalid value." << endl, false);
+		else if (!val[i])
+			return (std::cerr << "Error: 0 is invalid value." << endl, false);
+	}
+	
+	bool decimal = false;
+	for (size_t i = 0; i < val.length(); ++i)
+	{
+		if (val[i] == '.') 
+		{
+			if (decimal)
+				return (std::cerr << "Error: invalid value." << endl, false);
+			decimal = true;
+		}
+		else if (!isdigit(val[i]))
+			return (std::cerr << "Error: invalid value." << endl, false);
+	}
+
+	if (val[0] == '1'
+		&& val[1] && val[1] == '0'
+		&& val[2] && val[2] == '0'
+		&& val[3] && val[3] == '0')
+	{
+		i = 4;
+		if (val[i] == '.')
+		{
+			i++;
+			while (val[i] == '0')
+				i++;
+			if (i > 11)
+				return (std::cerr << "Error: ARE YOU SERIOUS? DO YOU THINK THIS IS A RELIABLE FLOAT NUMBER?!" << endl, false);
+			if (!val[i])
+			{
+				if (val[i - 1] == '0')
+					return true;
+			}
+			else if (val[i] && val[i] > '0')
+				return (std::cerr << "Error: too large number." << endl, false);
+		}
+	}
+	return true;
+}
+
 void BitcoinExchange::start(char *av)
 {
 	std::ifstream file(av);
 	if (!file.is_open())
 	{
 		std::cerr << "Error: file cannot be opened." << endl;
-		delete[] data_csv;
 		return ;
 	}
 
@@ -48,7 +112,6 @@ void BitcoinExchange::start(char *av)
 	if (!file.is_open())
 	{
 		std::cerr << "Error: file cannot be opened." << endl;
-		delete[] data_csv;
 		delete[] listString;
 		return ;
 	}
@@ -62,7 +125,8 @@ void BitcoinExchange::start(char *av)
 	}
 
 	std::string date;
-	float val = 0.0;
+	std::string val;
+	float valu = 0.0f;
 	bool control;
 	j = 0;
 	while (++j < i)
@@ -71,17 +135,19 @@ void BitcoinExchange::start(char *av)
 		std::getline(v, date, '|');
 		control = true;
 		v >> val;
-		if (val < 0.0f || static_cast<long long>(val) > 1000.0f)
+		if (valueControl(val) == false)
 		{
-			if (val < 0.0f)
-				std::cerr << "Error: not a positive number." << endl;
-			else
-				std::cerr << "Error: too large number." << endl;
 			control = false;
 			continue;
 		}
 		if (control)
-			value = val;
+		{
+			v.clear();
+			v.str("");
+			v.str(val);
+			v >> valu;
+			value = valu;
+		}
 		date = getDate(listString[j]);
 		if (!isValidDate(date))
 		{
@@ -93,14 +159,13 @@ void BitcoinExchange::start(char *av)
 		if (invalidDate(date))
 			continue;
 		float result = exchangeRates[date] * value;
-		if (result < 0.0f || static_cast<long long>(result) > 2147483647.0f)
+		if (result < 0.0f || static_cast<long double>(result) > 2147483647.0f)
 			result = 2147483647.0f;
-		std::cout << std::fixed << std::setprecision(2);
+		std::cout << std::fixed << std::setprecision(7);
 		cout << date << " => " << value << " = " << result << endl;
 	}
 
 	file.close();
-	delete[] data_csv;
 	delete[] listString;
 }
 
