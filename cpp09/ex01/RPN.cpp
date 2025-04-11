@@ -2,118 +2,75 @@
 
 RPN::RPN() {}
 
-RPN::RPN(const RPN &other): arg(other.arg), ops(other.ops) {}
+RPN::RPN(const RPN &other): stack(other.stack) {}
 
 RPN &RPN::operator=(const RPN &other)
 {
 	if (this != &other)
-	{
-		arg = other.arg;
-		ops = other.ops;
-	}
+		stack = other.stack;
 	return *this;
 }
 
 RPN::~RPN() {}
 
-bool operatorControl(const char c)
+bool isOperator(char c)
 {
-	std::string operators = "-+*/";
-	size_t i = -1;
-	while (++i < operators.length())
-		if (operators[i] == c)
-			return (true);
-	return (false);
+	return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 
-bool RPN::getList(const std::string &expression)
+void RPN::calculate(const std::string &expression)
 {
-	size_t i = 0;
-	int num = 0;
-	int op = 0;
-	
-	while (i < expression.length())
-	{
-		while (isspace(expression[i]))
-			i++;
-		if (isdigit(expression[i]) && expression[i] <= '9' && expression[i] >= '0')
-		{
-			num++;
-			arg.push_back(expression[i]);
-		}
-		if (operatorControl(expression[i]))
-		{
-			op++;
-			ops.push_back(expression[i]);
-		}
-		if (!((isdigit(expression[i]) && expression[i] <= '9' && expression[i] >= '0') || (operatorControl(expression[i]))))
-		{
-			std::cerr << "Error: Invalid value." << endl;
-			return false;
-		}
-		i++;
-	}
-	if (num != op + 1)
-	{
-		std::cerr << "Error: Bad using. Example: ./RPN \"3 6 + 8 -\"" << endl;
-		return false;
-	}
-	arg.push_back('p');
-	ops.push_back('p');
-	i = 0;
-	
-	while (isspace(expression[i]))
-		i++;
-	if (expression[i] <= '9' && expression[i] >= '0')
-		i++;
-	while (isspace(expression[i]))
-		i++;
-	if (operatorControl(expression[i]))
-	{
-		std::cerr << "Error: Bad using. Example: ./RPN \"3 6 + 8 -\"" << endl;
-		return false;
-	}
-	return true;
-}
+	std::istringstream iss(expression);
+	std::string token;
 
-long process(int a, int b, char c)
-{
-	long	x = 0;
-
-	if (c == '+')
-		x = a + b;
-	else if (c == '*')
-		x = a * b;
-	else if (c == '-')
-		x = a - b;
-	else if (c == '/')
-		x = a / b;
-	if (x > 2147483647 || x < -2147483648)
+	while (iss >> token)
 	{
-		std::cerr << "Error: Result is not within integer limits." << endl;
-		return (2147483648);
-	}
-	return (x);
-}
+		if (token.length() == 1 && isdigit(token[0]))
+		{
+			stack.push_back(token[0] - '0');
+		}
+		else if (token.length() == 1 && isOperator(token[0]))
+		{
+			if (stack.size() < 2)
+			{
+				std::cerr << "Error: not enough operands." << std::endl;
+				return;
+			}
+			int b = stack.back(); stack.pop_back();
+			int a = stack.back(); stack.pop_back();
+			int result;
 
-void RPN::calculate(const std::string &av)
-{
-	if (getList(av) == false)
-		return ;
-	std::list<char>::iterator iterator = arg.begin();
-	std::list<char>::iterator op = ops.begin();
-	long a = *iterator - 48;
-	iterator++;
-	long b = *iterator - 48;
-	while (*iterator != 'p')
-	{
-		a = process(a, b, *op);
-		if (a > 2147483647 || a < -2147483648)
-			return ;
-		iterator++;
-		if (*iterator != 'p')
-			b = *iterator - 48;
-		op++;
+			switch (token[0])
+			{
+				case '+': result = a + b; break;
+				case '-': result = a - b; break;
+				case '*': result = a * b; break;
+				case '/':
+					if (b == 0)
+					{
+						std::cerr << "Error: division by zero." << std::endl;
+						return;
+					}
+					result = a / b;
+					break;
+				default:
+					std::cerr << "Error: unknown operator." << std::endl;
+					return;
+			}
+			stack.push_back(result);
+		}
+		else
+		{
+			std::cerr << "Error: invalid value: " << token << std::endl;
+			return;
+		}
 	}
-	cout << a << endl;
+
+	if (stack.size() != 1)
+	{
+		std::cerr << "Error: invalid expression." << std::endl;
+		return;
+	}
+
+	std::cout << stack.back() << std::endl;
 }

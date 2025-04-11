@@ -5,6 +5,8 @@
 #include <list>
 #include <iostream>
 #include <sstream>
+#include <cstdlib>
+#include <cctype>
 
 using std::cout;
 using std::endl;
@@ -12,17 +14,15 @@ using std::endl;
 class RPN
 {
 	private:
-		std::list<char> arg;
-		std::list<char> ops;
-		std::list<char> controler;
+		std::list<int> stack;
+
 	public:
 		RPN();
 		RPN(const RPN &other);
 		RPN &operator=(const RPN &other);
 		~RPN();
 
-		bool getList(const std::string &expression);
-		void calculate(const std::string &av);
+		void calculate(const std::string &expression);
 };
 
 #endif
