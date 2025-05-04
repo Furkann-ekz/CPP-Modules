@@ -33,7 +33,7 @@ void RPN::calculate(const std::string &expression)
 		{
 			if (stack.size() < 2)
 			{
-				std::cerr << "Error: not enough operands." << std::endl;
+				std::cerr << "Error: Bad using. Example: ./RPN \"3 6 + 8 -\"" << std::endl;
 				return;
 			}
 			int b = stack.back(); stack.pop_back();
@@ -48,13 +48,13 @@ void RPN::calculate(const std::string &expression)
 				case '/':
 					if (b == 0)
 					{
-						std::cerr << "Error: division by zero." << std::endl;
+						std::cerr << "Error: You can't using 0." << std::endl;
 						return;
 					}
 					result = a / b;
 					break;
 				default:
-					std::cerr << "Error: unknown operator." << std::endl;
+					std::cerr << "Error: Bad using. Example: ./RPN \"3 6 + 8 -\"" << std::endl;
 					return;
 			}
 			stack.push_back(result);
